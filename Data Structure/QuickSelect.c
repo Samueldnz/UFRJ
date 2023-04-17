@@ -5,9 +5,38 @@
 int Partition(int *V, int intBegin, int intEnd);
 int QuickSelect(int *V, int intBegin, int intEnd, int int_K);
 
-int main(void)
+int main(int argc, char *argv[])
 {
-    printf("Something will exist here! See U soon!\n");
+    /*It works and doesn`t work at the same time, Why? Idk. If I test with small and
+    close number, the algorithmic works just in the right side (Why? Idk yet) and if 
+    I test with bigger and distant numbers, It doesn`t work at all*/
+
+    int *V;
+    int int_tam, intResult;
+    int int_K = atoi(argv[1]);
+
+    printf("Put the vector length: ");
+    scanf("%d", &int_tam);
+
+    V = (int *) malloc(int_tam * sizeof(int));
+
+    if(V == NULL) return 0;
+
+    for(int i; i < int_tam; i++)
+    {
+        scanf("%d", &V[i]);
+    }
+
+    intResult = QuickSelect(V, 0, int_tam + 1, int_K);
+    
+    printf("Result: %d\n", intResult);
+
+    for(int i; i < int_tam; i++)
+    {
+        printf("%4d ", V[i]);   
+    }
+
+    free(V);
 }
 
 int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
