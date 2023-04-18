@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     I test with bigger and distant numbers, It doesn`t work at all*/
 
     int *V;
-    int int_tam, intResult;
+    int int_tam, intResult, i;
     int int_K = atoi(argv[1]);
 
     printf("Put the vector length: ");
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 
     if(V == NULL) return 0;
 
-    for(int i; i < int_tam; i++)
+    for(i = 0; i < int_tam; i++)
     {
         scanf("%d", &V[i]);
     }
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     
     printf("Result: %d\n", intResult);
 
-    for(int i; i < int_tam; i++)
+    for(i = 0; i < int_tam; i++)
     {
         printf("%4d ", V[i]);   
     }
@@ -43,7 +43,7 @@ int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
 {
     int intPospivot;
 
-    if((intEnd - intBegin) == 1)
+    if((intEnd - intBegin) <= 1)
     {
         return V[intBegin];
     }
@@ -54,13 +54,13 @@ int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
     {
         return V[int_K];
     }
-    else if(int_K < intPospivot)
+    if(int_K < intPospivot)
     {
         QuickSelect(V, intBegin, intPospivot, int_K);
     }
     else
     {
-        QuickSelect(V, intPospivot, intEnd, int_K);
+        QuickSelect(V, intPospivot + 1, intEnd, int_K);
     }
 }
 
