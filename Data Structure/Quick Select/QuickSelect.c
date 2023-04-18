@@ -8,8 +8,14 @@ int* DynamicVectorBuilder(char* pfileName, int* pTam);
 
 int main(int argc, char *argv[])
 {
-    /*OK. Everything is working according to the plan. Enjoy! In order to call the program, 
-    just use the following command: ./QuickSelect.exe K(a number of your desire) teste.txt*/
+    /*OK. Everything is working according to the plan? Of course not. 
+    After some test, I realize my code sometimes it works (the code found the right
+    number) anytime It`s not. In both cases, It`s print out an addiontal zero (IDK why)
+    and as you select a larger vector positio, the vector are built with a lot of zeros 
+    (IDK why either).
+    
+    You can test by yourself if you want. 
+    Just need to use the following command: ./QuickSelect.exe K(a number of your desire) Test.txt*/
 
     /*The followings ones are variable, if they have the underscore, means they`re a 
     temporary variable*/
@@ -26,11 +32,9 @@ int main(int argc, char *argv[])
     printf("%d", intResult);
     printf("\n\n");
 
-    /*Its prints out all the vector, totally desnecessary, so I`ll comment this part
-    pretty soon*/
     for(i = 0; i < int_tam; i++)
     {
-        printf("%4d ", V[i]);   
+        printf("%4d ", V[i]);  /*Its prints out all the vector, totally desnecessary*/
     }
 
     /*Realease the vector*/
@@ -43,6 +47,8 @@ int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
 {
     int intPospivot;
 
+    /*It checks if the vector have just one number. If it has, it`ll return 
+    the number in that position*/
     if((intEnd - intBegin) <= 1)
     {
         return V[intBegin];
@@ -50,15 +56,15 @@ int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
 
     intPospivot = Partition(V, intBegin, intEnd);
 
-    if(intPospivot == int_K)
+    if(intPospivot == int_K) 
     {
         return V[int_K];
     }
-    if(int_K < intPospivot)
+    if(int_K < intPospivot) /*vector left side*/
     {
         QuickSelect(V, intBegin, intPospivot, int_K);
     }
-    else
+    else /*vector right side */
     {
         QuickSelect(V, intPospivot + 1, intEnd, int_K);
     }
@@ -68,6 +74,7 @@ int Partition(int *V, int intBegin, int intEnd)
 {
     int intPos, intPivot, int_i, int_j, int_temp;
 
+    /*It gets a random number between the vector begind and its end*/
     srand(time(NULL));
     intPos = intBegin + (rand() % (intEnd- 1));
 
