@@ -4,32 +4,23 @@
 
 int Partition(int *V, int intBegin, int intEnd);
 int QuickSelect(int *V, int intBegin, int intEnd, int int_K);
+int* DynamicVectorBuilder(char* pfileName, int* pTam);
 
 int main(int argc, char *argv[])
 {
-    /*It works and doesn`t work at the same time, Why? Idk. If I test with small and
-    close number, the algorithmic works just in the right side (Why? Idk yet) and if 
-    I test with bigger and distant numbers, It doesn`t work at all*/
+    /*OK. Everything is working according to the plan. Enjoy! To call the program, just
+    use the following command: ./QuickSelect.exe K(a number of your desire) teste.txt*/
 
-    int *V;
+   
     int int_tam, intResult, i;
     int int_K = atoi(argv[1]);
 
-    printf("Put the vector length: ");
-    scanf("%d", &int_tam);
-
-    V = (int *) malloc(int_tam * sizeof(int));
-
-    if(V == NULL) return 0;
-
-    for(i = 0; i < int_tam; i++)
-    {
-        scanf("%d", &V[i]);
-    }
+    int* V = DynamicVectorBuilder(argv[2], &int_tam);
 
     intResult = QuickSelect(V, 0, int_tam + 1, int_K);
     
-    printf("Result: %d\n", intResult);
+    printf("%d", intResult);
+    printf("\n\n");
 
     for(i = 0; i < int_tam; i++)
     {
@@ -37,6 +28,8 @@ int main(int argc, char *argv[])
     }
 
     free(V);
+
+    return 0;
 }
 
 int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
@@ -102,4 +95,32 @@ int Partition(int *V, int intBegin, int intEnd)
     V[int_j] = intPivot;
 
     return int_j;
+}
+
+int* DynamicVectorBuilder(char* pfileName, int* pTam)
+{
+    FILE* file = fopen(pfileName, "r");
+
+    if(file == NULL) exit(1);
+
+    int intFileNumber, int_n = 0, i;
+
+    while(fscanf(file, "%d", &intFileNumber) == 1)
+    {
+        int_n++;
+    }
+
+    int *V = (int*) malloc(int_n * sizeof(int));
+    if(V == NULL) exit(1);
+
+    rewind(file);
+
+    for(i = 0; i < int_n; i++){
+        fscanf(file, "%d", &V[i]);
+    }
+
+    fclose(file);
+    *pTam = int_n;
+
+    return V;
 }
