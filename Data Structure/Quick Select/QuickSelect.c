@@ -25,8 +25,7 @@ int main(int argc, char *argv[])
     /*It builds the dynamic vector from a file*/
     int* V = DynamicVectorBuilder(argv[2], &int_tam); 
 
-
-    intResult = QuickSelect(V, 0, int_tam + 1, int_K);
+    intResult = QuickSelect(V, 0, int_tam, int_K);
     
     /*Its prints out the result*/
     printf("%d", intResult);
@@ -34,7 +33,7 @@ int main(int argc, char *argv[])
 
     for(i = 0; i < int_tam; i++)
     {
-        printf("%4d ", V[i]);  /*Its prints out all the vector, totally desnecessary*/
+        printf("%4d ", V[i]);  /*Its prints out all the vector, totaly desnecessary*/
     }
 
     /*Realease the vector*/
@@ -49,7 +48,7 @@ int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
 
     /*It checks if the vector have just one number. If it has, it`ll return 
     the number in that position*/
-    if((intEnd - intBegin) <= 1)
+    if((intEnd - intBegin) == 1)
     {
         return V[intBegin];
     }
@@ -59,14 +58,12 @@ int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
     if(intPospivot == int_K) 
     {
         return V[int_K];
-    }
-    if(int_K < intPospivot) /*vector left side*/
+    }else if(int_K < intPospivot) /*vector left side*/
     {
-        QuickSelect(V, intBegin, intPospivot, int_K);
-    }
-    else /*vector right side */
+        return QuickSelect(V, intBegin, intPospivot, int_K);
+    }else /*vector right side */
     {
-        QuickSelect(V, intPospivot + 1, intEnd, int_K);
+        return QuickSelect(V, intPospivot + 1, intEnd, int_K);
     }
 }
 
@@ -76,7 +73,7 @@ int Partition(int *V, int intBegin, int intEnd)
 
     /*It gets a random number between the vector begind and its end*/
     srand(time(NULL));
-    intPos = intBegin + (rand() % (intEnd- 1));
+    intPos = intBegin + (rand() % (intEnd - intBegin + 1));
 
     intPivot = V[intPos];
     V[intPos] = V[intBegin];
@@ -145,3 +142,4 @@ int* DynamicVectorBuilder(char* pfileName, int* pTam)
 
     return V;
 }
+
