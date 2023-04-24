@@ -8,33 +8,32 @@ int* DynamicVectorBuilder(char* pfileName, int* pTam);
 
 int main(int argc, char *argv[])
 {
-    /*OK. Everything is working according to the plan? Of course not. 
-    After some test, I realize my code sometimes it works (the code found the right
-    number) anytime It`s not. In both cases, It`s print out an addiontal zero (IDK why)
-    and as you select a larger vector positio, the vector are built with a lot of zeros 
-    (IDK why either).
+    /*IT'S ALIVE! MY CODE IS ALIVE! Now, it's working correctly. In this version, the first one,
+    you need to enter with file (.txt) containing all the numbers.
     
     You can test by yourself if you want. 
     Just need to use the following command: ./QuickSelect.exe K(a number of your desire) Test.txt*/
 
-    /*The followings ones are variable, if they have the underscore, means they`re a 
-    temporary variable*/
-    int int_tam, intResult, i;  
-    int int_K = atoi(argv[1]);
+    /*The followings ones are variables*/
+    
+    int tam, Result; /*i; in case you wanna print the vector*/
 
-    /*It builds the dynamic vector from a file*/
-    int* V = DynamicVectorBuilder(argv[2], &int_tam); 
+    int K = atoi(argv[1]); /*converts a string to int number, i.e., the argument K in the command*/
 
-    intResult = QuickSelect(V, 0, int_tam, int_K);
+    /*It builds the dynamic vector using the numbers from the file*/
+    int* V = DynamicVectorBuilder(argv[2], &tam); 
+
+    Result = QuickSelect(V, 0, tam - 1, K);
     
     /*Its prints out the result*/
-    printf("%d", intResult);
+    printf("%d", Result);
     printf("\n\n");
 
-    for(i = 0; i < int_tam; i++)
+    /*
+    for(i = 0; i < tam; i++)
     {
-        printf("%4d ", V[i]);  /*Its prints out all the vector, totaly desnecessary*/
-    }
+        printf("%4d ", V[i]);  Its prints out all the vector, totaly desnecessary, but you can use
+    }*/
 
     /*Realease the vector*/
     free(V);
@@ -42,70 +41,80 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
+/* *V is a pointer to an array of numbers, start is the begin of this array, 
+    end is self-explanatory and follows the same logic as the start variable, and
+    K is the position of the array that you want*/
+int QuickSelect(int *V, int start, int end, int K)
 {
-    int intPospivot;
+    int pivot_position;
 
     /*It checks if the vector have just one number. If it has, it`ll return 
     the number in that position*/
-    if((intEnd - intBegin) == 1)
+    if(start == end)
     {
-        return V[intBegin];
+        return V[start];
+    }
+  
+    pivot_position = Partition(V, start, end); /*returns the correct pivot`s position in the array*/
+
+    if(pivot_position == K) 
+    {
+        return V[K];
+    }
+    
+    if(K > pivot_position) /*vector RIGHT side*/
+    {
+        return QuickSelect(V, pivot_position + 1, end, K);
     }
 
-    intPospivot = Partition(V, intBegin, intEnd);
+    /*vector LEFT side */
+    return QuickSelect(V, start, pivot_position - 1, K);
 
-    if(intPospivot == int_K) 
-    {
-        return V[int_K];
-    }else if(int_K < intPospivot) /*vector left side*/
-    {
-        return QuickSelect(V, intBegin, intPospivot, int_K);
-    }else /*vector right side */
-    {
-        return QuickSelect(V, intPospivot + 1, intEnd, int_K);
-    }
 }
 
-int Partition(int *V, int intBegin, int intEnd)
+int Partition(int *V, int start, int end)
 {
-    int intPos, intPivot, int_i, int_j, int_temp;
+    int pivot_position, pivot_value, i, j, temp;
 
-    /*It gets a random number between the vector begind and its end*/
+    /*It gets a random number between the vector`s begin and its end to be the pivot number`s
+    position */
     srand(time(NULL));
-    intPos = intBegin + (rand() % (intEnd - intBegin + 1));
+    pivot_position = start + rand() % (end - start + 1);
 
-    intPivot = V[intPos];
-    V[intPos] = V[intBegin];
-    V[intBegin] =  intPivot;
+    /*It puts the pivot number in the last position*/
+    pivot_value = V[pivot_position];
+    V[pivot_position] = V[end];
+    V[end] = pivot_value;
 
-    int_i = intBegin + 1;
-    int_j = intEnd - 1;
+    /*Imagine like a pointer to the first postion and penultimate position respectively*/
+    i = start;
+    j = end - 1;
 
-    while(int_i < int_j)
+    while(j >= i)
     {
-        while(int_i < intEnd && V[int_i] < intPivot)
-        {
-            int_i++;
+        /*If the first position value is bigger than the pivot one and the last value is 
+        smaller than the pivot one, we need to change the places between them */
+        if((V[i]>= pivot_value) && (V[j] < pivot_value)){
+            temp = V[j];
+            V[j] = V[i];
+            V[i] = temp;
         }
 
-        while(int_j > intBegin && V[int_j] >= intPivot)
-        {
-            int_j--;
+        if(V[i] < pivot_value){
+            i++;
         }
 
-        if(int_i < int_j)
-        {
-            int_temp = V[int_i];
-            V[int_i] = V[int_j];
-            V[int_j] = int_temp;
+        if(V[j] >= pivot_value){
+            j--;
         }
     }
 
-    V[intBegin] = V[int_j];
-    V[int_j] = intPivot;
+    /*in here, we put the pivot value in the correct position if the array was sorted*/
+    temp = V[i];
+    V[i] = V[end];
+    V[end] = temp;
 
-    return int_j;
+    return i; /*return the new position of the pivot*/
 }
 
 int* DynamicVectorBuilder(char* pfileName, int* pTam)
