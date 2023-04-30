@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     
     You can test by yourself if you want. 
     In order to use a file, you just need to use the following command: 
-    ./QuickSelect.exe -K (a number of your desire) 
+    ./QuickSelect.exe -K (a number of your desire) < Test.txt
 
     The followings ones are variables*/
     
