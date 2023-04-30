@@ -7,22 +7,28 @@ int QuickSelect(int *V, int intBegin, int intEnd, int int_K);
 
 int main(int argc, char *argv[])
 {
-    /*In this version, the second one, you can use the keyboard to put all the numbers you want 
-    because we have a static array.
-    
-    You can test by yourself if you want. 
-    In order to use a file, you just need to use the following command: 
-    ./QuickSelect.exe -K (a number of your desire) < Test.txt
+    /* This is the second version of the QuickSelect program. It allows users to input a 
+    list of numbers via keyboard, as the program uses a static array to store the input data.
 
-    The followings ones are variables*/
+    To use this program, you can run it in the command line and specify the value of K as 
+    an argument. 
     
+    For example, to find the K-th smallest element in a list, you can use 
+    the command "./QuickSelect.exe -K < input.txt" where "K" is replaced by the desired 
+    value of K, and "input.txt" is a file containing the list of numbers.
+
+    Remember that the K-th element is counted starting from the number 1.*/
+
+    /*initialize variables*/
     int tam = 0, Result; 
 
-    int K = atoi(argv[2]); /*converts a string to int number, i.e., the argument K in the command*/
+    /*converts a string to int number, i.e., the argument K in the command*/
+    int K = atoi(argv[2]); 
 
-    /*It builds the dynamic vector using the numbers from the file*/
+    /*It builds the vector*/
     int V[1000];
 
+    /*get input from user and add to array*/
     while(!feof(stdin)){
         int x;
         if(scanf("%d", &x) == 1){
@@ -31,6 +37,7 @@ int main(int argc, char *argv[])
         }
     }
 
+    /*find Kth smallest element using QuickSelect algorithm*/
     Result = QuickSelect(V, 0, tam - 1, K);
     
     /*Its prints out the result*/
@@ -40,9 +47,17 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-/* *V is a pointer to an array of numbers, start is the begin of this array, 
-    end is self-explanatory and follows the same logic as the start variable, and
-    K is the position of the array that you want*/
+/*
+QuickSelect algorithm to find the Kth smallest element in an array.
+
+Arguments:
+- V: pointer to an array of integers
+- intBegin: starting index of the array
+- intEnd: ending index of the array
+- int_K: position of the element to find
+
+Return: the Kth smallest element
+*/
 int QuickSelect(int *V, int start, int end, int K)
 {
     int pivot_position;
@@ -71,11 +86,21 @@ int QuickSelect(int *V, int start, int end, int K)
 
 }
 
+/*
+Partition - find the correct position of the pivot element in the array.
+
+Arguments:
+- V: pointer to an array of integers
+- intBegin: starting index of the array
+- intEnd: ending index of the array
+
+Return: an int, the new position of pivot
+*/
 int Partition(int *V, int start, int end)
 {
     int pivot_position, pivot_value, i, j, temp;
 
-    /*It gets a random number between the vector`s begin and its end to be the pivot number`s
+    /*It gets a random number between the vector`s begin and its end to be the pivot numbers
     position */
     srand(time(NULL));
     pivot_position = start + rand() % (end - start + 1);

@@ -15,6 +15,8 @@ int main(int argc, char *argv[])
     we use a dynamic one. You can test by yourself if you want. In order to use a file, 
     you just need to enter the following command: 
     ./QuickSelect.exe -K (a number of your desire) < Test.txt
+
+    Remember that the K-th element is counted starting from the number 1.
     */
 
     /*initialize variables*/
@@ -165,7 +167,7 @@ void arrayoverflow(int** V, int* size) {
     
     /* Check if reallocation failed */
     if ((*V) == NULL) {
-        exit(1);
+        exit(1); 
     }
 }
 
