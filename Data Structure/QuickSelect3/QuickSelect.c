@@ -4,41 +4,37 @@
 
 int Partition(int *V, int intBegin, int intEnd);
 int QuickSelect(int *V, int intBegin, int intEnd, int int_K);
-int arrayoverflow(int *V, int size);
-void insert(int *V, int size, int elements, int x);
-int* DynamicVectorBuilder(char* pfileName, int* pTam);
+void arrayoverflow(int** V, int* size);
+void insert(int** V, int* size, int elements, int x);
+
 
 int main(int argc, char *argv[])
 {
-    /*In this version, the second one, you can use the keyboard to put all the numbers you want 
-    because we have a static array or you`re able to use a file (.txt) containing all the numbers.
     
-    You can test by yourself if you want. 
-    In order to use a file, you just need to use the following command: 
-    ./QuickSelect.exe -K (a number of your desire) < Test.txt*/
-
-    /*The followings ones are variables*/
-    
-    int tam = 0, Result; 
+    int element = 0, Result;
+    int size = 10;
 
     int K = atoi(argv[2]); /*converts a string to int number, i.e., the argument K in the command*/
 
-    /*It builds the dynamic vector using the numbers from the file*/
-    int V[1000];
+    int *V = malloc(10 * sizeof(int));
+    if(V == NULL) exit(1); 
 
+    /*It gets the number from the keyboard and insert in vector*/
     while(!feof(stdin)){
         int x;
         if(scanf("%d", &x) == 1){
-            V[tam] = x;
-            tam++;
+            insert(&V, &size, element, x);
+            element++;
         }
     }
 
-    Result = QuickSelect(V, 0, tam - 1, K);
+    Result = QuickSelect(V, 0, element - 1, K);
     
     /*Its prints out the result*/
-    printf("%d", Result);
+    printf("Result %d", Result);
     printf("\n\n");
+
+    free(V);
 
     return 0;
 }
@@ -119,35 +115,22 @@ int Partition(int *V, int start, int end)
     return i; /*return the new position of the pivot*/
 }
 
-int arrayoverflow(int *V, int size){
+void arrayoverflow(int** V, int* size){ /*int** V is the adress of the point*/
 
-    int i;
-
-    int *temp = (int *) malloc(2 * size * sizeof(int));
-    if(temp == NULL) exit(1);
-
-    for(i = 0; i < size; i++){
-        temp[i] = V[i];
-    }
-
-    free(V);
-    V = temp;
-    size = 2*size;
-
-    return size;
+    (*size) *= 2;
+    (*V) = (int *) realloc((*V), (*size) * sizeof(int));
 }
 
 /*x It`s a number to insert in the vector, and elements it's the amount of number already inserted*/
-void insert(int *V, int size, int elements, int x){
-    if(elements == size){
+void insert(int** V, int* size, int elements, int x){
+    if(elements == (*size)){
         arrayoverflow(V, size);
     }
     
-    if(elements == size){
+    if(elements == (*size)){
         exit(1);
     }
 
-    V[elements] = x;
-    elements++;
+    (*V)[elements] = x; 
 }
 

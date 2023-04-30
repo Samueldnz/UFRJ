@@ -4,18 +4,17 @@
 
 int Partition(int *V, int intBegin, int intEnd);
 int QuickSelect(int *V, int intBegin, int intEnd, int int_K);
-int* DynamicVectorBuilder(char* pfileName, int* pTam);
 
 int main(int argc, char *argv[])
 {
     /*In this version, the second one, you can use the keyboard to put all the numbers you want 
-    because we have a static array or you`re able to use a file (.txt) containing all the numbers.
+    because we have a static array.
     
     You can test by yourself if you want. 
     In order to use a file, you just need to use the following command: 
-    ./QuickSelect.exe -K (a number of your desire) < Test.txt*/
+    ./QuickSelect.exe -K (a number of your desire) 
 
-    /*The followings ones are variables*/
+    The followings ones are variables*/
     
     int tam = 0, Result; 
 
