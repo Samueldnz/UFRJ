@@ -1,46 +1,103 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct inner_node {
+/* Constants */
+#define TRUE 1
+#define MAX_LENGTH 20
+
+/* Structures */
+typedef struct VERTEXNODE {
     int value;
-    struct inner_node* next;
-} InnerNode;
+    struct VERTEXNODE* next;
+} vertexnode;
 
-typedef struct node {
-    struct node* next;
-    struct inner_node* head;
-} Node;
+/* Function prototypes */
+void add_to_list(int value, vertexnode** head);
 
-void add_to_inner_list(int value, InnerNode** head) {
-    InnerNode* new_node = (InnerNode*) malloc(sizeof(InnerNode));
-    new_node->value = value;
-    new_node->next = (*head);
-    (*head) = new_node;
-}
-
-void add_to_list(Node** head, InnerNode* inner_head) {
-    Node* new_node = (Node*) malloc(sizeof(Node));
-    new_node->head = inner_head;
-    new_node->next = (*head);
-    (*head) = new_node;
-}
-
+/* Main function */
 int main() {
-    Node* list_head = NULL;
-    InnerNode* inner_list_head = NULL;
-    int value, n, i;
+     /* Variable declarations */
+    char inputOfvertex[MAX_LENGTH];   /* Input string for the number of vertices */
+    int numberOfvertex;               /* Number of vertices */
+    char vertexAsString[MAX_LENGTH];  /* Input string for each vertex */
+    char ch;                          /* Temporary character */
+    int j, i, destination;            /* Loop variables and destination vertex */
+    int *degreeOfvertexes;            /* Array to store the degree of each vertex */
+    vertexnode *vertex_list;          /* Pointer to the adjacency list of each vertex */
+    vertexnode **vertextargets;       /* Array to store the adjacency list of each vertex */
 
-    while (scanf("%d", &n) == 1) {
-        inner_list_head = NULL;
+    /* Read number of vertices from input */
+    fgets(inputOfvertex, MAX_LENGTH, stdin);
+    numberOfvertex = atoi(inputOfvertex);
 
-        for (i = 0; i < n; i++) {
-            scanf("%d", &value);
-            add_to_inner_list(value, &inner_list_head);
-        }
-
-        add_to_list(&list_head, inner_list_head);
+    /* Allocate memory for an array of pointers to adjacency lists and initialize to NULL */
+    vertextargets = (vertexnode**) malloc((numberOfvertex+1) * sizeof(vertexnode*));
+    if(vertextargets == NULL) {
+        exit(EXIT_FAILURE); /* exit if memory allocation fails */
     }
+    for(i = 1; i <= numberOfvertex; i++){
+        vertextargets[i] = NULL;
+    }
+
+    /* Allocate memory for an array to store the degree of each vertex and initialize to zero */
+    degreeOfvertexes = (int*) malloc((numberOfvertex+1) * sizeof(int));
+    if(degreeOfvertexes == NULL) {
+        exit(EXIT_FAILURE); /* exit if memory allocation fails */
+    }
+    for(i = 1; i <= numberOfvertex; i++){
+        degreeOfvertexes[i] = 0;
+    }
+
+    /* Read vertices and their edges from input */
+    for(i = 1; i <= numberOfvertex; i++){
+        vertex_list = NULL; /* initialize the adjacency list for the current vertex */
+        j = 0;
+
+        while(TRUE){
+            /* Read the vertices until reaching a non-digit character */
+            while('0' <= (ch = getchar()) && ch <= '9'){ 
+                vertexAsString[j] = ch;
+                j++;
+            }
+
+            if(j > 0) {
+                /* Convert the vertex to an integer and add to the adjacency list */
+                vertexAsString[j] = '\0';
+                destination = atoi(vertexAsString);
+                add_to_list(destination, &vertex_list); /* add the vertex to the adjacency list */
+                degreeOfvertexes[i]++; /* increment the degree of the current vertex */
+                j = 0; /* reset the string index */
+            }
+
+            /* Break the loop when reaching the end of the line or end of file */
+            if(ch == EOF || ch == '\n'){
+                break;
+            }
+        }
+        /* Store the adjacency list for the current vertex */
+        vertextargets[i] = vertex_list;
+    }
+
+    /* Free allocated memory */
+    free(vertextargets);
+    free(degreeOfvertexes);
 
     return 0;
 }
 
+/**
+Adds a new vertex to the adjacency list.
+@param value - The value to be added to the new vertex.
+@param head - The head of the vertex linked list.
+@return void
+*/
+void add_to_list(int value, vertexnode** head) {
+    /*Allocates memory for the new node*/
+    vertexnode* new_node = (vertexnode*) malloc(sizeof(vertexnode));
+    /*Sets the value of the new node to the input value*/
+    new_node->value = value;
+    /*Sets the next pointer of the new node to the current head*/
+    new_node->next = (*head);
+    /*Updates the head pointer to point to the new node*/
+    (*head) = new_node;
+}
