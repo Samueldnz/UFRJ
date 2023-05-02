@@ -4,6 +4,7 @@
 /* Constants */
 #define TRUE 1
 #define MAX_LENGTH 20
+#define ZERO 0
 
 /* Structures */
 typedef struct VERTEXNODE {
@@ -100,4 +101,33 @@ void add_to_list(int value, vertexnode** head) {
     new_node->next = (*head);
     /*Updates the head pointer to point to the new node*/
     (*head) = new_node;
+}
+
+void topologicalsorting(int startvertex, 
+                        vertexnode** vertex_list, 
+                        int** degreeOfvertexes, 
+                        int numberOfvertexes)
+{
+
+    int *topologicalsort = malloc(numberOfvertexes * sizeof(int));
+    if(topologicalsort == NULL) exit(TRUE);
+
+    int *visitedvertex = malloc(numberOfvertexes * sizeof(int));
+    if(visitedvertex == NULL) exit(TRUE);
+
+    visitedvertex[startvertex] = 1;
+
+    int index = ZERO;
+    topologicalsort[index] = startvertex;
+
+    vertexnode* adjacentvertex = vertex_list[index];
+
+    while(adjacentvertex != NULL){
+        int x = adjacentvertex->value;
+        (*degreeOfvertexes)[x]--;
+        
+        if((*degreeOfvertexes)[x] == 0){
+            /*??*/
+        }
+    }
 }
