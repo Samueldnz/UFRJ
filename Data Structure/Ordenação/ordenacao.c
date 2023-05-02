@@ -79,6 +79,16 @@ int main() {
         vertextargets[i] = vertex_list;
     }
 
+    int *topologicalsort = malloc(numberOfvertex * sizeof(int));
+    if(topologicalsort == NULL) exit(TRUE);
+
+    int *visitedvertex = malloc(numberOfvertex * sizeof(int));
+    if(visitedvertex == NULL) exit(TRUE);
+
+    for(i = 1; i <= numberOfvertex; i++){
+        visitedvertex[i] = 0;
+    }
+
     /* Free allocated memory */
     free(vertextargets);
     free(degreeOfvertexes);
@@ -106,28 +116,26 @@ void add_to_list(int value, vertexnode** head) {
 void topologicalsorting(int startvertex, 
                         vertexnode** vertex_list, 
                         int** degreeOfvertexes, 
-                        int numberOfvertexes)
+                        int** visitedvertex,
+                        int** topologicalsort)
 {
 
-    int *topologicalsort = malloc(numberOfvertexes * sizeof(int));
-    if(topologicalsort == NULL) exit(TRUE);
-
-    int *visitedvertex = malloc(numberOfvertexes * sizeof(int));
-    if(visitedvertex == NULL) exit(TRUE);
+    vertexnode* adjacentvertex;
 
     visitedvertex[startvertex] = 1;
 
     int index = ZERO;
     topologicalsort[index] = startvertex;
 
-    vertexnode* adjacentvertex = vertex_list[index];
+    adjacentvertex = vertex_list[index];
 
     while(adjacentvertex != NULL){
         int x = adjacentvertex->value;
         (*degreeOfvertexes)[x]--;
         
-        if((*degreeOfvertexes)[x] == 0){
-            /*??*/
+        if((*degreeOfvertexes)[x] == 0 && visitedvertex[x] == 0){
+            topologicalsorting(x, vertex_list,degreeOfvertexes,); /*it`s still missing something*/
         }
+        adjacentvertex = adjacentvertex->next;
     }
 }
