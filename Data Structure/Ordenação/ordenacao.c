@@ -14,6 +14,12 @@ typedef struct VERTEXNODE {
 
 /* Function prototypes */
 void add_to_list(int value, vertexnode** head);
+void topologicalsorting(int startvertex, 
+                        vertexnode** vertextargets, 
+                        int** degreeOfvertexes, 
+                        int** visitedvertex,
+                        int** topologicalsort,
+                        int* index);
 
 /* Main function */
 int main() {
@@ -34,7 +40,7 @@ int main() {
     /* Allocate memory for an array of pointers to adjacency lists and initialize to NULL */
     vertextargets = (vertexnode**) malloc((numberOfvertex+1) * sizeof(vertexnode*));
     if(vertextargets == NULL) {
-        exit(EXIT_FAILURE); /* exit if memory allocation fails */
+        exit(TRUE); /* exit if memory allocation fails */
     }
     for(i = 1; i <= numberOfvertex; i++){
         vertextargets[i] = NULL;
@@ -79,28 +85,50 @@ int main() {
         vertextargets[i] = vertex_list;
     }
 
-    int *topologicalsort = malloc(numberOfvertex * sizeof(int));
+   /*Allocate memory for the topological sort and visited vertex arrays*/
+    int *topologicalsort = (int*) malloc((numberOfvertex+1) * sizeof(int));
     if(topologicalsort == NULL) exit(TRUE);
 
-    int *visitedvertex = malloc(numberOfvertex * sizeof(int));
+    int *visitedvertex = (int*) malloc((numberOfvertex+1) * sizeof(int));
     if(visitedvertex == NULL) exit(TRUE);
 
+    /*Initialize all vertices as unvisited*/
     for(i = 1; i <= numberOfvertex; i++){
         visitedvertex[i] = 0;
     }
 
+    /*Find the vertex with in-degree 0 to start the topological sort*/
+    i = 1;
+    while(degreeOfvertexes[i] != 0){
+        i++;
+    }
+
+    /*Perform the topological sort, starting from the vertex with in-degree 0*/
+    topologicalsorting(i, &vertextargets, &degreeOfvertexes, &visitedvertex, &topologicalsort, 1);
+
+    /*Print the topological sort*/
+    for(i = 1; i <= numberOfvertex; i++){
+        printf("%4d", topologicalsort[i]);
+    } 
+
+
     /* Free allocated memory */
     free(vertextargets);
     free(degreeOfvertexes);
+    free(topologicalsort);
+    free(visitedvertex);
 
     return 0;
 }
 
 /**
-Adds a new vertex to the adjacency list.
-@param value - The value to be added to the new vertex.
-@param head - The head of the vertex linked list.
-@return void
+    Adds a new vertex to the adjacency list.
+
+    Parameters:
+    - value: The value to be added to the new vertex.
+    - head:The head of the vertex linked list.
+
+    Returns: nothing
 */
 void add_to_list(int value, vertexnode** head) {
     /*Allocates memory for the new node*/
@@ -113,29 +141,55 @@ void add_to_list(int value, vertexnode** head) {
     (*head) = new_node;
 }
 
+/**
+    This function performs topological sorting on a graph represented as an adjacency list.
+
+    Parameters:
+    - startvertex: the index of the vertex to start the sorting from
+    - vertex_list: a pointer to an array of vertexnodes representing the adjacency list of the graph
+    - degreeOfvertexes: a pointer to an array of integers representing the in-degree of each vertex in the graph
+    - visitedvertex: a pointer to an array of integers representing whether each vertex has been visited or not
+    - topologicalsort: a pointer to an array of integers that will contain the sorted vertices
+    - index: pointer to the index of the next empty slot in the topologicalsort array
+
+    Returns: nothing
+*/
 void topologicalsorting(int startvertex, 
-                        vertexnode** vertex_list, 
+                        vertexnode** vertextargets, 
                         int** degreeOfvertexes, 
                         int** visitedvertex,
-                        int** topologicalsort)
+                        int** topologicalsort,
+                        int* index)
 {
 
     vertexnode* adjacentvertex;
 
-    visitedvertex[startvertex] = 1;
+    /*Mark the current vertex as visited*/
+    (*visitedvertex)[startvertex] = 1;
 
-    int index = ZERO;
-    topologicalsort[index] = startvertex;
+    /*Add the current vertex to the topological sort*/
+    (*topologicalsort)[(*index)++] = startvertex;
 
-    adjacentvertex = vertex_list[index];
+    /*Get the first adjacent vertex of the current vertex*/
+    adjacentvertex = vertextargets[startvertex];
 
+    /*Iterate over all adjacent vertices of the current vertex*/
     while(adjacentvertex != NULL){
+
+        /*Decrease the in-degree of the adjacent vertex by 1*/
         int x = adjacentvertex->value;
         (*degreeOfvertexes)[x]--;
-        
-        if((*degreeOfvertexes)[x] == 0 && visitedvertex[x] == 0){
-            topologicalsorting(x, vertex_list,degreeOfvertexes,); /*it`s still missing something*/
+
+        /*If the in-degree of the adjacent vertex is 0 and it hasn't been visited, 
+        call the topologicalsorting function recursively on it*/
+
+        if((*degreeOfvertexes)[x] == 0 && (*visitedvertex)[x] == 0){
+            topologicalsorting(x, vertextargets, degreeOfvertexes, visitedvertex, 
+                                    topologicalsort, index);
         }
+
+        /*Move to the next adjacent vertex*/
         adjacentvertex = adjacentvertex->next;
     }
 }
+
