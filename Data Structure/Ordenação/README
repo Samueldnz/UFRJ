@@ -1,0 +1,26 @@
+## gcc ordenacao.c -o ordenacao.exe -Wall -ansi
+## ./ordenacao.exe < input.txt > output.txt
+
+This program implements the Kahn algorithm to perform a topological sorting on a graph
+represented by an adjacency list. The input must be given in the following format: the first
+line must contain the number of vertices in the graph, followed by the adjacency of each vertex 
+separated by space. If a vertex has a directed edge to vertices 2 and 3, for example, the input 
+should be "2 3" on the line following the vertex number input.
+
+The program starts by reading the number of vertices and allocating space for the 
+adjacency lists, as well as the array to store the degree of each vertex. It then 
+reads each vertex and its adjacency from the input, adding them to the adjacency 
+lists and updating their degrees. The program then calls the topological sorting 
+function using the graph, number of vertices, and degrees as arguments.
+
+The topological sorting function starts by initializing two arrays: one to store 
+the vertices that have not been processed yet and another to store the resulting 
+order of the topological sorting. The function then begins to process the vertices 
+with zero degree, adding them to the queue and removing them as they are processed. 
+The program adds the processed vertices to the resulting order until all vertices 
+have been processed. If the number of processed vertices is different from the number 
+of vertices in the graph, this indicates that the graph has a cycle and, therefore, 
+cannot be topologically sorted.
+
+The program releases the allocated memory for the adjacency lists, degrees, 
+array of unprocessed vertices, and resulting order before terminating.

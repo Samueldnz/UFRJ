@@ -1,13 +1,13 @@
-/*In the end of this code, there`s some trash comment that I used to debug him. 
-    Please ignore until the next commit. */
-
+/*
+## gcc ordenacao.c -o ordenacao.exe -Wall -ansi
+## ./ordenacao.exe < input.txt > output.txt
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #define TRUE 1
 #define MAX_LENGTH 20
-#define ZERO 0
 
 typedef struct VERTEXNODE {
     int value;
@@ -41,7 +41,6 @@ int main() {
     
     for(i = 1; i <= numberOfvertex; i++){degreeOfvertexes[i] = 0;}
 
-
     for(i = 1; i <= numberOfvertex; i++){
         vertex_list = NULL; 
         j = 0;
@@ -68,8 +67,6 @@ int main() {
         vertextargets[i] = vertex_list;
     }
 
-    printf("You are here! Congrats, It`s working!\n");
-
     topologicalsorting(vertextargets, numberOfvertex, degreeOfvertexes);
 
     for(i = 1; i <= numberOfvertex; i++){
@@ -89,14 +86,11 @@ int main() {
 }
 
 /**
-    Adds a new vertex to the adjacency list.
-
-    Parameters:
-    - value: The value to be added to the new vertex.
-    - head:The head of the vertex linked list.
-
-    Returns: nothing
-*/
+ * @brief Adds a new vertex to the adjacency list.
+ * 
+ * @param value The value to be added to the new vertex.
+ * @param head The head of the vertex linked list.
+ */
 void add_to_list(int value, vertexnode** head) {
     
     vertexnode* new_node = (vertexnode*) malloc(sizeof(vertexnode));
@@ -106,6 +100,14 @@ void add_to_list(int value, vertexnode** head) {
     (*head) = new_node;
 }
 
+/**
+ * @brief Implements the Kahn Algorithm to perfom a topological sorting on a graph represented by
+ *  an adjacent Liked list
+ * 
+ * @param graph Pointer to an array of pointers to each adjancent liked list
+ * @param numberOfvertex number of vertices in the graph
+ * @param degreeOfvertexes an int array representing the in-degree of each vertex
+ */
 void topologicalsorting(vertexnode** graph, int numberOfvertex, int* degreeOfvertexes)
 {
     int* line = (int*) malloc((numberOfvertex+1) * sizeof(int));
@@ -124,18 +126,15 @@ void topologicalsorting(vertexnode** graph, int numberOfvertex, int* degreeOfver
     }
 
     i = 1;
-
     while(begin != end){
-        printf("end = %d\n", end);
         int index = line[begin];
-        printf("begin = %d, i = %d, index = %d\n",begin, i, index);
         begin++;
+
         if (i <= numberOfvertex) {
             topologicalsort[i] = index;
-            printf("entrou\n");
             i++;
         }
-        printf("begin = %d, i = %d, index = %d\n",begin, i, index);
+
         vertexnode* adjacent = graph[index];
 
         while(adjacent != NULL){
@@ -146,24 +145,14 @@ void topologicalsorting(vertexnode** graph, int numberOfvertex, int* degreeOfver
                 end++;
             }
             adjacent = adjacent->next;
-            printf("continua -> begin = %d, i = %d, index = %d\n",begin, i, index);
         }
     }
-    printf("Numero i é %d e numero de vetores é %d\n", i, numberOfvertex);
-    printf("\n\n");
-
-    for(i = 1; i <= numberOfvertex; i++){
-        printf("%4d", line[i]);
-    }
-
     if(i != (numberOfvertex+1)){
         printf("The graph has a cycle!\n");
         return;
     }
-
     for(i = 1; i <= numberOfvertex; i++){
         printf("%4d", topologicalsort[i]);
     }
-
 }
 
