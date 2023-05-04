@@ -1,5 +1,5 @@
-## gcc ordenacao.c -o ordenacao.exe -Wall -ansi
-## ./ordenacao.exe < input.txt > output.txt
+## gcc topologicalsorting.c -o topologicalsorting.exe -Wall -ansi
+## ./topologicalsorting.exe < input.txt > output.txt
 
 This program implements the Kahn algorithm to perform a topological sorting on a graph
 represented by an adjacency list. The input must be given in the following format: the first
@@ -24,3 +24,13 @@ cannot be topologically sorted.
 
 The program releases the allocated memory for the adjacency lists, degrees, 
 array of unprocessed vertices, and resulting order before terminating.
+
+The code in the file "generator.c" generates a file containing a directed acyclic graph (DAG) 
+that is sortable in a topological order. The program receives a command-line argument that 
+determines the number of vertices to be created in the graph. It then generates a 
+random topological order for these vertices, assigning random neighbors to each vertex. 
+The resulting graph is written to a file with the specified name or to a default file 
+name "input.txt" if no file name is provided. The output file starts with the number of 
+vertices and then lists the neighbors for each vertex in order, with one vertex per line. 
+Since the generated graph is a DAG, it can be topologically sorted, that is, listed in an 
+order where each vertex appears before all its successors.

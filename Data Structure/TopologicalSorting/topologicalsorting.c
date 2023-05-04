@@ -1,6 +1,6 @@
 /*
-## gcc ordenacao.c -o ordenacao.exe -Wall -ansi
-## ./ordenacao.exe < input.txt > output.txt
+## gcc topologicalsorting.c -o topologicalsorting.exe -Wall -ansi
+## ./topologicalsorting.exe < input.txt > output.txt
 */
 
 #include <stdio.h>
