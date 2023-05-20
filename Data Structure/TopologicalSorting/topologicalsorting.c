@@ -151,6 +151,7 @@ void topologicalsorting(vertexnode** graph, int numberOfvertex, int* degreeOfver
         printf("The graph has a cycle!\n");
         return;
     }
+    
     for(i = 1; i <= numberOfvertex; i++){
         printf("%4d", topologicalsort[i]);
     }

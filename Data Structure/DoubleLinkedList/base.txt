@@ -1,0 +1,6 @@
+inserir(head, chave)
+    novoNode = criarno(chave);
+    verifica
+    novoNode->next = head
+    head->prev = novoNode
+    head = novoNode

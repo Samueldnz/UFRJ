@@ -6,14 +6,12 @@ typedef struct _NODE
     int key;
     int suffixsum;
     struct _NODE* next;
+    struct _NODE* previous;
 }Node;
 
 Node* createNode(int key);
-int suffixsum(Node* head);
 void insertNode(Node** head, int keyvalue);
 void displayList(Node* head);
-
-/*To run this code, use the following command: "./linkedlist.exe < "in.txt" > "out.txt""*/
 
 int main(void)
 {
@@ -47,32 +45,8 @@ Node* createNode(int key) {
 
     newNode->key = key;
     newNode->next = NULL;
-    newNode->suffixsum = 0;
+    newNode->previous = NULL;
     return newNode;
-}
-
-/**
- * @brief Calculates the suffix sum of the linked list recursively.
- * 
- * This function computes the suffix sum of the linked list by recursively summing up the key 
- * values of the nodes starting from the current node and updating the suffixsum field of 
- * each node accordingly.
- * 
- * @param head Pointer to the head node of the linked list.
- * @return int The suffix sum of the linked list.
- */
-int suffixsum(Node* head)
-{
-    int total;
-
-    if(head == NULL){
-        return 0;
-    }
-
-    total = suffixsum(head->next);
-    head->suffixsum = head->key + total;
-
-    return head->suffixsum;
 }
 
 /**
@@ -85,6 +59,7 @@ void insertNode(Node** head, int keyvalue) {
     Node* newNode = createNode(keyvalue);
     if(newNode == NULL) exit(1);
     newNode->next = (*head);
+    (*head)->previous = newNode;
     (*head) = newNode;
 }
 
@@ -103,5 +78,4 @@ void displayList(Node* head) {
     }
     printf("NULL\n");  
 }
-
 
