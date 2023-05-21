@@ -26,7 +26,7 @@ int main(void)
     while(!feof(stdin)){
         int x;
         if(scanf("%d", &x) == 1){
-            insertNode(&head, x);
+            addNode(&head, x);
             element++; /*Not necessary, It`s here just in case I want to use in the future*/
         }
     }
@@ -55,56 +55,28 @@ Node* createNode(int key) {
 }
 
 /**
- * @brief Calculates the suffix sum of the linked list recursively.
- * 
- * This function computes the suffix sum of the linked list by recursively summing up the key 
- * values of the nodes starting from the current node and updating the suffixsum field of 
- * each node accordingly.
- * 
- * @param head Pointer to the head node of the linked list.
- * @return int The suffix sum of the linked list.
- */
-int suffixsum(Node* head)
-{
-    int total;
-
-    if(head == NULL){
-        return 0;
-    }
-
-    total = suffixsum(head->next);
-    head->suffixsum = head->key + total;
-
-    return head->suffixsum;
-}
-
-/**
- * @brief Inserts a new node with the given key value at the beginning of the linked list.
- * 
- * @param head Pointer to the pointer of the head node of the linked list.
- * @param keyvalue The key value of the new node to be inserted.
+ * @brief Adds a node in an ordered way to a linked list based on the node keys.
+ *
+ * @param head A pointer to the head node of the linked list.
+ * @param keyvalue The key value of the node to be added.
  */
 void addNode(Node** head, int keyvalue) {
     Node* newNode = createNode(keyvalue);
-    if(newNode == NULL) exit(1);
-    newNode->next = (*head);
-    (*head) = newNode;
-}
+    if(newNode == NULL) exit(1); /*Check if memory allocation for the new node failed*/
 
-/**
- * @brief Displays the linked list by printing the key value and suffix sum of each node.
- * 
- * @param head Pointer to the head node of the linked list.
- */
-void displayList(Node* head) {
+    if((*head) == NULL || keyvalue < (*head)->key){
+        newNode->next = (*head);
+        (*head) = newNode;    
+    }else{
+        Node* currentNode = (*head);
 
-    Node* current = head;
-    while (current != NULL) {
-        printf("Key: %d ", current->key);  
-        printf("SuffixSum: %d -> ", current->suffixsum);  
-        current = current->next;  
-    }
-    printf("NULL\n");  
+        while(currentNode->next != NULL && keyvalue > currentNode->next->key){
+            currentNode = currentNode->next;
+        }
+
+        newNode->next = currentNode->next;
+        currentNode->next = newNode;
+    } 
 }
 
 /**
@@ -147,13 +119,50 @@ bool deleteNode(Node** head, int keyvalue){
                 previousNode->next = currentNode->next;
             }
             free(currentNode);
-            return true; // Node found and deleted successfully
+            return true; /*Node found and deleted successfully*/
         }
         previousNode = currentNode;
         currentNode = currentNode->next;
     }
-    return false; // Node not found
+    return false; /*Node not found*/
 }
 
+/**
+ * @brief Calculates the suffix sum of the linked list recursively.
+ * 
+ * This function computes the suffix sum of the linked list by recursively summing up the key 
+ * values of the nodes starting from the current node and updating the suffixsum field of 
+ * each node accordingly.
+ * 
+ * @param head Pointer to the head node of the linked list.
+ * @return int The suffix sum of the linked list.
+ */
+int suffixsum(Node* head)
+{
+    int total;
 
+    if(head == NULL){
+        return 0;
+    }
 
+    total = suffixsum(head->next);
+    head->suffixsum = head->key + total;
+
+    return head->suffixsum;
+}
+
+/**
+ * @brief Displays the linked list by printing the key value and suffix sum of each node.
+ * 
+ * @param head Pointer to the head node of the linked list.
+ */
+void displayList(Node* head) {
+
+    Node* current = head;
+    while (current != NULL) {
+        printf("Key: %d ", current->key);  
+        printf("SuffixSum: %d -> ", current->suffixsum);  
+        current = current->next;  
+    }
+    printf("NULL\n");  
+}
