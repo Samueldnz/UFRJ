@@ -29,7 +29,7 @@ int main(void)
             addNode(&head, x);
             element++; /*Not necessary, It`s here just in case I want to use in the future*/
         }
-    }
+    } printf("All the numbers was added successfully!\n");
 
     head->suffixsum = suffixsum(head);
 
