@@ -10,7 +10,7 @@ typedef struct _NODE
 }Node;
 
 Node* createNode(int key);
-void insertNode(Node** head, int keyvalue);
+void addNode(Node** head, int keyvalue);
 void displayList(Node* head);
 
 int main(void)
@@ -21,12 +21,10 @@ int main(void)
     while(!feof(stdin)){
         int x;
         if(scanf("%d", &x) == 1){
-            insertNode(&head, x);
+            addNode(&head, x);
             element++; /*Not necessary, It`s here just in case I want to use in the future*/
         }
     }
-
-    head->suffixsum = suffixsum(head);
 
     displayList(head);
 
@@ -50,17 +48,39 @@ Node* createNode(int key) {
 }
 
 /**
- * @brief Inserts a new node with the given key value at the beginning of the linked list.
- * 
- * @param head Pointer to the pointer of the head node of the linked list.
- * @param keyvalue The key value of the new node to be inserted.
+ * @brief Adds a node in an ordered way to a double linked list based on the node keys.
+ *
+ * @param head A pointer to the head node of the linked list.
+ * @param keyvalue The key value of the node to be added.
  */
-void insertNode(Node** head, int keyvalue) {
+void addNode(Node** head, int keyvalue) {
     Node* newNode = createNode(keyvalue);
     if(newNode == NULL) exit(1);
-    newNode->next = (*head);
-    (*head)->previous = newNode;
-    (*head) = newNode;
+
+    if((*head) == NULL){
+        (*head) = newNode;
+
+    }else if (keyvalue < (*head)->key)
+    {
+        newNode->next = (*head);
+        (*head)->previous = newNode;
+        (*head) = newNode;
+    }else{
+        Node* currentNode = (*head);
+
+        while(currentNode->next != NULL && keyvalue > currentNode->next->key){
+            currentNode = currentNode->next;
+        }
+
+        newNode->previous = currentNode;
+        newNode->next = currentNode->next;
+        
+        if (currentNode->next != NULL) {
+            currentNode->next->previous = newNode;
+        }
+        
+        currentNode->next = newNode;
+    }
 }
 
 /**
@@ -73,7 +93,6 @@ void displayList(Node* head) {
     Node* current = head;
     while (current != NULL) {
         printf("Key: %d ", current->key);  
-        printf("SuffixSum: %d -> ", current->suffixsum);  
         current = current->next;  
     }
     printf("NULL\n");  
