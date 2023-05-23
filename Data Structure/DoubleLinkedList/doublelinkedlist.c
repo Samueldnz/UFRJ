@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 
 typedef struct _NODE
 {
@@ -81,6 +82,53 @@ void addNode(Node** head, int keyvalue) {
         
         currentNode->next = newNode;
     }
+}
+
+/**
+ * @brief Searches for a node with the specified key value in a linked list.
+ *
+ * @param head The head node of the linked list.
+ * @param keyvalue The key value to search for.
+ * @return Returns a pointer to the node if found; otherwise, returns NULL.
+ */
+Node* searchNode(Node* head, int keyvalue){
+    Node* currentNode = head;
+
+    while(currentNode != NULL){
+        if(currentNode->key == keyvalue){
+            return currentNode;
+        }
+        currentNode = currentNode->next;
+    }
+
+    return NULL;
+}
+
+
+/**
+ * @brief Deletes a node with the specified key value from a linked list.
+ *
+ * @param head A pointer to the head node of the linked list.
+ * @param keyvalue The key value of the node to be deleted.
+ * @return true if the node is found and deleted successfully; false if the node is not found.
+ */
+bool deleteNode(Node** head, int keyvalue){
+    Node* currentNode = (*head);
+
+    while(currentNode != NULL){
+        if(currentNode->key == keyvalue){
+            if(currentNode->previous == NULL){
+                (*head) = currentNode->next;
+            }
+            else{
+                currentNode->previous->next = currentNode->next;
+            }
+            free(currentNode);
+            return true; /*Node found and deleted successfully*/
+        }
+        currentNode = currentNode->next;
+    }
+    return false; /*Node not found*/
 }
 
 /**
