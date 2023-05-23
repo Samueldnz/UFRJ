@@ -15,6 +15,9 @@ void addNode(Node** head, int keyvalue);
 void displayList(Node* head);
 Node* searchNode(Node* head, int keyvalue);
 bool deleteNode(Node** head, int keyvalue);
+int main_menu();
+void input_flush();
+int get_int(int min, int max, char * prompt);
 
 /*To run this code, use the following command: "./linkedlist.exe < "in.txt" > "out.txt""*/
 
@@ -22,6 +25,7 @@ int main(void)
 {
     Node* head = NULL;
     int element = 0;
+    int i;
 
     while(!feof(stdin)){
         int x;
@@ -29,13 +33,8 @@ int main(void)
             addNode(&head, x);
             element++; /*Not necessary, It`s here just in case I want to use in the future*/
         }
-    } printf("All the numbers was added successfully!\n");
+    } printf("\nAll the numbers was added successfully!\n");
 
-    head->suffixsum = suffixsum(head);
-
-    displayList(head);
-
-    return 0;
 }
 
 /**
@@ -165,4 +164,62 @@ void displayList(Node* head) {
         current = current->next;  
     }
     printf("NULL\n");  
+}
+
+/**
+ * @brief Display the menu options and prompts the use to choose an option
+ * 
+ * @return int The selected menu option
+ */
+int main_menu(void)
+{
+    char *titulo = "\nMain Menu\n\n";
+    char *a = "(1) Add a Node\n";
+    char *b = "(2) Search a Node\n";
+    char *c = "(3) Delete a Node\n";
+    char *d = "(4) Display the linked list\n";
+    char *f = "(0) Exit\n";
+
+    printf("%s%s%s%s%s%s\n", titulo, a, b, c, d, f);
+
+    return get_int(0, 4, "Choose an Option: ");
+}
+
+/**
+ * @brief Clear the input buffer by consuming and discarding all characters
+ * from the standard input until a newline character is encountered
+ * 
+ */
+void input_flush()
+{
+	char c;
+	c = fgetc(stdin);
+	while(c != '\n') c = fgetc(stdin);
+}
+
+/**
+ * @brief Get an integer value within a specified range
+ * 
+ * @param min The minimum allowable value
+ * @param max The maximum allowable value
+ * @param prompt The prompt to display to the user 
+ * @return int The valid value entered by the user
+ */
+int get_int(int min, int max, char * prompt)
+{
+	int i;
+	do
+	{
+		printf("%s", prompt);
+		if(!(scanf("%d", &i)))
+		{
+			input_flush();
+			continue;
+		}
+	}
+	while(i < min || i > max);
+
+    input_flush();
+
+	return i;
 }
