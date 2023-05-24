@@ -35,6 +35,18 @@ int main(void)
         }
     } printf("\nAll the numbers was added successfully!\n");
 
+    while(1){
+        switch (main_menu())
+        {
+        case 0:
+            return 0;
+            break;
+        
+        default:
+            break;
+        }
+    }
+
 }
 
 /**
@@ -173,16 +185,23 @@ void displayList(Node* head) {
  */
 int main_menu(void)
 {
-    char *titulo = "\nMain Menu\n\n";
-    char *a = "(1) Add a Node\n";
-    char *b = "(2) Search a Node\n";
-    char *c = "(3) Delete a Node\n";
-    char *d = "(4) Display the linked list\n";
-    char *f = "(0) Exit\n";
+    int i; 
 
-    printf("%s%s%s%s%s%s\n", titulo, a, b, c, d, f);
+    char *title = "\nMain Menu\n\n";
+    char *a = "(1) Add a new Node\n";
+    char *b = "(2) Delete a Node\n";
+    char *c = "(3) Search a Node\n";
+    char *d = "(4) Display the List\n";
+    char *f = "(5) Exit\n";
 
-    return get_int(0, 4, "Choose an Option: ");
+    printf("%s%s%s%s%s%s\n", title, a, b, c, d, f);
+
+    printf("Choose an Option: ");
+    scanf("%d", &i);
+
+    /*It isn`t working, there is a problem with this scanf. Probably related to the EOF when I get the inputs.
+    If a use the get_int() and input_flush() funtion, the code enter in infinite looping*/
+    return i;
 }
 
 /**
