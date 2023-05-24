@@ -13,6 +13,8 @@ typedef struct _NODE
 Node* createNode(int key);
 void addNode(Node** head, int keyvalue);
 void displayList(Node* head);
+bool deleteNode(Node** head, int keyvalue);
+Node* searchNode(Node* head, int keyvalue);
 
 int main(void)
 {
