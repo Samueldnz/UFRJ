@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
     }
 
     Node* head = NULL;
-    int i = 0;
     int x = 0;
 
     FILE *inputFile = fopen(argv[1], "r");
@@ -49,19 +48,31 @@ int main(int argc, char *argv[])
         switch (main_menu())
         {
         case 1:
-            return 0;
+            printf("Enter with the new Node key to add: ");
+            scanf("%d", &x);
+            addNode(&head, x);
+            printf("The new Node was added successfully!\n");
             break;
         
         case 2:
-            return 0;
+            printf("Enter with the Node key to delete: ");
+            scanf("%d", &x);
+            if(deleteNode(&head, x)){
+                printf("The Node was deleted successfully!\n");
+            }else{
+                printf("Node wasn`t found!\n");
+            }
             break;
         
         case 3:
-            return 0;
+            printf("Enter with the Node key to search: ");
+            scanf("%d", &x);
+            Node* found = searchNode(head, x);
             break;
         
         case 4:
-            return 0;
+            printf("Linked List\n");
+            displayList(head);
             break;
         
         case 5:
