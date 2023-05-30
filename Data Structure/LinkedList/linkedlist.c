@@ -15,37 +15,57 @@ void addNode(Node** head, int keyvalue);
 void displayList(Node* head);
 Node* searchNode(Node* head, int keyvalue);
 bool deleteNode(Node** head, int keyvalue);
-void main_menu();
+int main_menu();
 void input_flush();
 int get_int(int min, int max, char * prompt);
 
 /*To run this code, use the following command: "./linkedlist.exe < "in.txt" > "out.txt""*/
 
-int main(void)
+int main(int argc, char *argv[])
 {
-    Node* head = NULL;
-    int element = 0;
-    int i = 0;
+    if (argc != 2) {
+        printf("Use: ./program <file>\n");
+        return 1;
+    }
 
-    while(!feof(stdin)){
-        int x;
-        if(scanf("%d", &x) == 1){
-            addNode(&head, x);
-            element++; /*Not necessary, It`s here just in case I want to use in the future*/
-        }
-    } printf("\nAll the numbers was added successfully!\n");
+    Node* head = NULL;
+    int i = 0;
+    int x = 0;
+
+    FILE *inputFile = fopen(argv[1], "r");
+    if (inputFile == NULL) {
+        printf("It wasn`t possible to open the file.\n");
+        return 1;
+    }
+    
+    while (fscanf(inputFile, "%d", &x) == 1) {
+        addNode(&head, x);
+    } printf("All the numbers was added successfully!\n");
+    
+    fclose(inputFile);
 
     while(1){
-        main_menu();
-        printf("Choose an Option: ");
-        scanf("%d", &i);
-        switch (i)
+        
+        switch (main_menu())
         {
         case 1:
             return 0;
             break;
         
-        default:
+        case 2:
+            return 0;
+            break;
+        
+        case 3:
+            return 0;
+            break;
+        
+        case 4:
+            return 0;
+            break;
+        
+        case 5:
+            return 0;
             break;
         }
     }
@@ -185,7 +205,7 @@ void displayList(Node* head) {
  * 
  * @return int The selected menu option
  */
-void main_menu(void)
+int main_menu(void)
 {
     int i; 
 
@@ -197,6 +217,8 @@ void main_menu(void)
     char *f = "(5) Exit\n";
 
     printf("%s%s%s%s%s%s\n", title, a, b, c, d, f);
+
+    return get_int(1,5, "Choose an Option: ");
 }
 
 /**
