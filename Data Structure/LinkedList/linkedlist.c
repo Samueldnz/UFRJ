@@ -19,9 +19,13 @@ int main_menu();
 void input_flush();
 int get_int(int min, int max, char * prompt);
 
-/*To run this code, use the following command: "./linkedlist.exe < "in.txt" > "out.txt""*/
+/*
 
-/*int main(int argc, char *argv[])
+If you enable this main function, you will need to use the following command:
+./linkedlist.exe input.txt
+Because this code opens, reads and then closes the file.
+
+int main(int argc, char *argv[])
 {
     if (argc != 2) {
         printf("Use: ./program <file>\n");
@@ -82,34 +86,57 @@ int get_int(int min, int max, char * prompt);
     }
 }*/
 
+/*
+Although, if you enable this one, you`ll need to use the following command:
+./linkedlist.exe < "in.txt"
+`Cause this part directs the stdin to the file
+*/
 int main(void) {
     Node* head = NULL;
-    int element = 0;
-    int i = 0;
-    int x = 0;
+    int x;
 
     while (!feof(stdin)) {
-        int x;
         if (scanf("%d", &x) == 1) {
             addNode(&head, x);
-            element++; 
         }
-    }
-    printf("\nAll the numbers were added successfully!\n");
+    }printf("\nAll the numbers were added successfully!\n");
 
-    freopen("/dev/tty", "r", stdin); 
+    freopen("/dev/tty", "r", stdin); /*Redirects the stdin file*/
 
     while (1) {
-        printf("Choose an option: ");
-        scanf("%d", &i);
-
-        switch (i) {
-            case 1:
-                return 0;
-                break;
-
-            default:
-                break;
+        switch (main_menu())
+        {
+        case 1:
+            printf("Enter with the new Node key to add: ");
+            scanf("%d", &x);
+            addNode(&head, x);
+            printf("The new Node was added successfully!\n");
+            break;
+        
+        case 2:
+            printf("Enter with the Node key to delete: ");
+            scanf("%d", &x);
+            if(deleteNode(&head, x)){
+                printf("The Node was deleted successfully!\n");
+            }else{
+                printf("Node wasn`t found!\n");
+            }
+            break;
+        
+        case 3:
+            printf("Enter with the Node key to search: ");
+            scanf("%d", &x);
+            Node* found = searchNode(head, x);
+            break;
+        
+        case 4:
+            printf("Linked List\n");
+            displayList(head);
+            break;
+        
+        case 5:
+            return 0;
+            break;
         }
     }
 }
