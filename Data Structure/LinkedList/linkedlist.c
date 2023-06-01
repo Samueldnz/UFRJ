@@ -21,7 +21,7 @@ int get_int(int min, int max, char * prompt);
 
 /*To run this code, use the following command: "./linkedlist.exe < "in.txt" > "out.txt""*/
 
-int main(int argc, char *argv[])
+/*int main(int argc, char *argv[])
 {
     if (argc != 2) {
         printf("Use: ./program <file>\n");
@@ -78,6 +78,38 @@ int main(int argc, char *argv[])
         case 5:
             return 0;
             break;
+        }
+    }
+}*/
+
+int main(void) {
+    Node* head = NULL;
+    int element = 0;
+    int i = 0;
+    int x = 0;
+
+    while (!feof(stdin)) {
+        int x;
+        if (scanf("%d", &x) == 1) {
+            addNode(&head, x);
+            element++; 
+        }
+    }
+    printf("\nAll the numbers were added successfully!\n");
+
+    freopen("/dev/tty", "r", stdin); 
+
+    while (1) {
+        printf("Choose an option: ");
+        scanf("%d", &i);
+
+        switch (i) {
+            case 1:
+                return 0;
+                break;
+
+            default:
+                break;
         }
     }
 }
