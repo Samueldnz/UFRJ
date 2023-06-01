@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
 
 /*
 Although, if you enable this one, you`ll need to use the following command:
-./linkedlist.exe < "in.txt"
+./linkedlist.exe < "input.txt"
 `Cause this part directs the stdin to the file
 */
 int main(void) {
