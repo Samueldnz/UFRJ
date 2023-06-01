@@ -15,6 +15,9 @@ void addNode(Node** head, int keyvalue);
 void displayList(Node* head);
 bool deleteNode(Node** head, int keyvalue);
 Node* searchNode(Node* head, int keyvalue);
+int main_menu(void);
+void input_flush();
+int get_int(int min, int max, char * prompt);
 
 int main(void)
 {
@@ -146,5 +149,65 @@ void displayList(Node* head) {
         current = current->next;  
     }
     printf("NULL\n");  
+}
+
+/**
+ * @brief Display the menu options and prompts the use to choose an option
+ * 
+ * @return int The selected menu option
+ */
+int main_menu(void)
+{
+    int i; 
+
+    char *title = "\nMain Menu\n\n";
+    char *a = "(1) Add a new Node\n";
+    char *b = "(2) Delete a Node\n";
+    char *c = "(3) Search a Node\n";
+    char *d = "(4) Display the List\n";
+    char *f = "(5) Exit\n";
+
+    printf("%s%s%s%s%s%s\n", title, a, b, c, d, f);
+
+    return get_int(1,5, "Choose an Option: ");
+}
+
+/**
+ * @brief Clear the input buffer by consuming and discarding all characters
+ * from the standard input until a newline character is encountered
+ * 
+ */
+void input_flush()
+{
+	char c;
+	c = fgetc(stdin);
+	while(c != '\n') c = fgetc(stdin);
+}
+
+/**
+ * @brief Get an integer value within a specified range
+ * 
+ * @param min The minimum allowable value
+ * @param max The maximum allowable value
+ * @param prompt The prompt to display to the user 
+ * @return int The valid value entered by the user
+ */
+int get_int(int min, int max, char * prompt)
+{
+	int i;
+	do
+	{
+		printf("%s", prompt);
+		if(!(scanf("%d", &i)))
+		{
+			input_flush();
+			continue;
+		}
+	}
+	while(i < min || i > max);
+
+    input_flush();
+
+	return i;
 }
 
