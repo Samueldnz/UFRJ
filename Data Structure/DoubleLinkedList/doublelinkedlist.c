@@ -6,6 +6,7 @@ typedef struct _NODE
 {
     int key;
     int suffixsum;
+    bool isSuffixSumPerformed;
     struct _NODE* next;
     struct _NODE* previous;
 }Node;
@@ -23,7 +24,7 @@ int get_int(int min, int max, char * prompt);
 
 If you enable this main function, you will need to use the following command:
 ./doublelinkedlist.exe input.txt
-Because this code opens, reads and then closes the file.
+Because this code opens, reads and then closes the file.*/
 
 int main(int argc, char *argv[])
 {
@@ -84,13 +85,13 @@ int main(int argc, char *argv[])
             break;
         }
     }
-}*/
+}
 
 /*
 Although, if you enable this one, you`ll need to use the following command:
 ./doublelinkedlist.exe < "input.txt"
 `Cause this part directs the stdin to the file
-*/
+
 int main(void) {
     Node* head = NULL;
     int x;
@@ -101,7 +102,7 @@ int main(void) {
         }
     }printf("\nAll the numbers were added successfully!\n");
 
-    freopen("/dev/tty", "r", stdin); /*Redirects the stdin file*/
+    freopen("/dev/tty", "r", stdin); 
 
     while (1) {
         switch (main_menu())
@@ -139,7 +140,7 @@ int main(void) {
             break;
         }
     }
-}
+}*/
 
 /**
  * @brief Creates a new Node object with the given key value.
@@ -314,4 +315,17 @@ int get_int(int min, int max, char * prompt)
 
 	return i;
 }
+
+/**
+ * @brief Displays the information of a found node.
+ * 
+ * @param nodeFound Pointer to the node to be displayed.
+ */
+void displayNode(Node* nodeFound) {
+    printf("\nNode { \n");
+    printf("    key: %d\n", nodeFound->key);
+    printf("    Suffixsum: %d\n", nodeFound->suffixsum);
+    printf("}\n\n");
+}
+
 
