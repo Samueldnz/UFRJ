@@ -6,6 +6,7 @@ typedef struct _NODE
 {
     int key;
     int suffixsum;
+    bool isSuffixSumPerformed;
     struct _NODE* next;
 }Node;
 
@@ -76,6 +77,9 @@ int main(int argc, char *argv[])
             if(found == NULL){
                 printf("A Node with this key doesn`t exist!\n");
             }else{
+                if(head->isSuffixSumPerformed){
+                    head->suffixsum = suffixsum(head);
+                }
                 displayNode(found);
             }
             break;
@@ -185,7 +189,9 @@ Node* createNode(int key) {
 void addNode(Node** head, int keyvalue) {
     Node* newNode = createNode(keyvalue);
     if(newNode == NULL) exit(1); /*Check if memory allocation for the new node failed*/
-
+    
+    newNode->isSuffixSumPerformed = false;
+    
     if((*head) == NULL || keyvalue < (*head)->key){
         newNode->next = (*head);
         (*head) = newNode;    
@@ -269,6 +275,7 @@ int suffixsum(Node* head)
 
     total = suffixsum(head->next);
     head->suffixsum = head->key + total;
+    head->isSuffixSumPerformed = true;
 
     return head->suffixsum;
 }
