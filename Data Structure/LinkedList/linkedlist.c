@@ -18,12 +18,13 @@ bool deleteNode(Node** head, int keyvalue);
 int main_menu();
 void input_flush();
 int get_int(int min, int max, char * prompt);
+void displayNode(Node* nodeFound);
 
 /*
 
 If you enable this main function, you will need to use the following command:
 ./linkedlist.exe input.txt
-Because this code opens, reads and then closes the file.
+Because this code opens, reads and then closes the file.*/
 
 int main(int argc, char *argv[])
 {
@@ -64,7 +65,7 @@ int main(int argc, char *argv[])
             if(deleteNode(&head, x)){
                 printf("The Node was deleted successfully!\n");
             }else{
-                printf("Node wasn`t found!\n");
+                printf("A Node with this key doesn`t exist!\n");
             }
             break;
         
@@ -72,10 +73,15 @@ int main(int argc, char *argv[])
             printf("Enter with the Node key to search: ");
             scanf("%d", &x);
             Node* found = searchNode(head, x);
+            if(found == NULL){
+                printf("A Node with this key doesn`t exist!\n");
+            }else{
+                displayNode(found);
+            }
             break;
         
         case 4:
-            printf("Linked List\n");
+            printf("Linked List\n\n");
             displayList(head);
             break;
         
@@ -84,13 +90,13 @@ int main(int argc, char *argv[])
             break;
         }
     }
-}*/
+}
 
 /*
 Although, if you enable this one, you`ll need to use the following command:
 ./linkedlist.exe < "input.txt"
 `Cause this part directs the stdin to the file
-*/
+
 int main(void) {
     Node* head = NULL;
     int x;
@@ -101,7 +107,7 @@ int main(void) {
         }
     }printf("\nAll the numbers were added successfully!\n");
 
-    freopen("/dev/tty", "r", stdin); /*Redirects the stdin file*/
+    freopen("/dev/tty", "r", stdin); Redirects the stdin file
 
     while (1) {
         switch (main_menu())
@@ -119,7 +125,7 @@ int main(void) {
             if(deleteNode(&head, x)){
                 printf("The Node was deleted successfully!\n");
             }else{
-                printf("Node wasn`t found!\n");
+                printf("A Node with this key doesn`t exist!\n");
             }
             break;
         
@@ -127,10 +133,15 @@ int main(void) {
             printf("Enter with the Node key to search: ");
             scanf("%d", &x);
             Node* found = searchNode(head, x);
+            if(found == NULL){
+                printf("A Node with this key doesn`t exist!\n");
+            }else{
+                displayNode(found);
+            }
             break;
         
         case 4:
-            printf("Linked List\n");
+            printf("Linked List\n\n");
             displayList(head);
             break;
         
@@ -139,7 +150,7 @@ int main(void) {
             break;
         }
     }
-}
+}*/
 
 /**
  * @brief Creates a new Node object with the given key value.
@@ -263,8 +274,7 @@ void displayList(Node* head) {
 
     Node* current = head;
     while (current != NULL) {
-        printf("Key: %d ", current->key);  
-        printf("SuffixSum: %d -> ", current->suffixsum);  
+        printf("Key: %d -> ", current->key);   
         current = current->next;  
     }
     printf("NULL\n");  
@@ -328,4 +338,16 @@ int get_int(int min, int max, char * prompt)
     input_flush();
 
 	return i;
+}
+
+/**
+ * @brief Displays the information of a found node.
+ * 
+ * @param nodeFound Pointer to the node to be displayed.
+ */
+void displayNode(Node* nodeFound) {
+    printf("\nNode { \n");
+    printf("    key: %d\n", nodeFound->key);
+    printf("    Suffixsum: %d\n", nodeFound->suffixsum);
+    printf("}\n\n");
 }
