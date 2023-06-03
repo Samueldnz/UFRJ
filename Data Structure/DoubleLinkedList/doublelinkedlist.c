@@ -19,6 +19,8 @@ Node* searchNode(Node* head, int keyvalue);
 int main_menu(void);
 void input_flush();
 int get_int(int min, int max, char * prompt);
+void displayNode(Node* nodeFound);
+int suffixsum(Node* head);
 
 /*
 
@@ -65,7 +67,7 @@ int main(int argc, char *argv[])
             if(deleteNode(&head, x)){
                 printf("The Node was deleted successfully!\n");
             }else{
-                printf("Node wasn`t found!\n");
+                printf("A Node with this key doesn`t exist!\n");
             }
             break;
         
@@ -73,16 +75,28 @@ int main(int argc, char *argv[])
             printf("Enter with the Node key to search: ");
             scanf("%d", &x);
             Node* found = searchNode(head, x);
+            if(found == NULL){
+                printf("A Node with this key doesn`t exist!\n");
+            }else{
+                if(head->isSuffixSumPerformed){
+                    head->suffixsum = suffixsum(head);
+                }
+                displayNode(found);
+            }
             break;
         
         case 4:
-            printf("Double Linked List\n");
+            printf("Double Linked List\n\n");
             displayList(head);
             break;
         
         case 5:
-            return 0;
+            head->suffixsum = suffixsum(head);
+            printf("Suffix sum performed successfully\n");
             break;
+
+        case 6:
+            return 0;
         }
     }
 }
@@ -155,6 +169,7 @@ Node* createNode(int key) {
     newNode->key = key;
     newNode->next = NULL;
     newNode->previous = NULL;
+    newNode->isSuffixSumPerformed = false;
     return newNode;
 }
 
@@ -250,7 +265,7 @@ void displayList(Node* head) {
 
     Node* current = head;
     while (current != NULL) {
-        printf("Key: %d ", current->key);  
+        printf("Key: %d ->", current->key);   
         current = current->next;  
     }
     printf("NULL\n");  
@@ -270,11 +285,12 @@ int main_menu(void)
     char *b = "(2) Delete a Node\n";
     char *c = "(3) Search a Node\n";
     char *d = "(4) Display the List\n";
-    char *f = "(5) Exit\n";
+    char *e = "(5) Do the Suffix Sum\n";
+    char *f = "(6) Exit\n";
 
-    printf("%s%s%s%s%s%s\n", title, a, b, c, d, f);
+    printf("%s%s%s%s%s%s%s\n", title, a, b, c, d, e, f);
 
-    return get_int(1,5, "Choose an Option: ");
+    return get_int(1,6, "Choose an Option: ");
 }
 
 /**
