@@ -328,4 +328,29 @@ void displayNode(Node* nodeFound) {
     printf("}\n\n");
 }
 
+/**
+ * @brief Calculates the suffix sum of the linked list recursively.
+ * 
+ * This function computes the suffix sum of the linked list by recursively summing up the key 
+ * values of the nodes starting from the current node and updating the suffixsum field of 
+ * each node accordingly.
+ * 
+ * @param head Pointer to the head node of the linked list.
+ * @return int The suffix sum of the linked list.
+ */
+int suffixsum(Node* head)
+{
+    int total;
+
+    if(head == NULL){
+        return 0;
+    }
+
+    total = suffixsum(head->next);
+    head->suffixsum = head->key + total;
+    head->isSuffixSumPerformed = true;
+
+    return head->suffixsum;
+}
+
 
