@@ -25,7 +25,7 @@ void displayNode(Node* nodeFound);
 
 If you enable this main function, you will need to use the following command:
 ./linkedlist.exe input.txt
-Because this code opens, reads and then closes the file.*/
+Because this code opens, reads and then closes the file.
 
 int main(int argc, char *argv[])
 {
@@ -98,12 +98,12 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
-}
+}*/
 
 /*
 Although, if you enable this one, you`ll need to use the following command:
 ./linkedlist.exe < "input.txt"
-`Cause this part directs the stdin to the file
+`Cause this part directs the stdin to the file*/
 
 int main(void) {
     Node* head = NULL;
@@ -115,7 +115,7 @@ int main(void) {
         }
     }printf("\nAll the numbers were added successfully!\n");
 
-    freopen("/dev/tty", "r", stdin); Redirects the stdin file
+    freopen("/dev/tty", "r", stdin); /*Redirects the stdin file*/
 
     while (1) {
         switch (main_menu())
@@ -144,6 +144,9 @@ int main(void) {
             if(found == NULL){
                 printf("A Node with this key doesn`t exist!\n");
             }else{
+                if(head->isSuffixSumPerformed){
+                    head->suffixsum = suffixsum(head);
+                }
                 displayNode(found);
             }
             break;
@@ -152,17 +155,17 @@ int main(void) {
             printf("Linked List\n\n");
             displayList(head);
             break;
-        
+
         case 5:
             head->suffixsum = suffixsum(head);
-            printf("Done\n");
+            printf("Suffix sum performed successfully\n");
             break;
 
         case 6:
             return 0;
         }
     }
-}*/
+}
 
 /**
  * @brief Creates a new Node object with the given key value.
