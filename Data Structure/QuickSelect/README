@@ -1,0 +1,15 @@
+QuickSelect Version 1.0
+
+This version of the QuickSelect program reads a file containing a list of numbers.
+    To run the program, type the desired K position followed by the name of the file to be read.
+    For example, to find the 5th smallest number in the "test.txt" file, run the command
+    "./QuickSelect.exe 5 input.txt". 
+
+    You can change the input.txt file for one of your own.
+
+    Notes:
+    - The file must contain only int separated by "\n".
+    - The file must not contain any non-numeric characters.
+    - The memory allocated for the dynamic int vector must be freed by the caller.
+    
+IMPORTANT: Remember that the K-th element is counted starting from the number 1. 

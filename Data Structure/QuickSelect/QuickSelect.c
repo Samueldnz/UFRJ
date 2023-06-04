@@ -9,50 +9,35 @@ int* DynamicVectorBuilder(char* pfileName, int* pSizeOfArray);
 
 int main(int argc, char *argv[])
 {
-    /* This version of the QuickSelect program reads a file containing a list of numbers.
-    To run the program, enter the desired position K followed by the name of the file to be read.
-    For example, to find the 5th smallest number in the file "test.txt", run the command
-    "./QuickSelect.exe 5 test.txt".
-    
-    Remember that the K-th element is counted starting from the number 1. */
-
     /* Verify that the correct number of arguments are provided */
     if (argc < 3) {
         printf("Usage: %s K filename.txt\n", argv[0]);
         return 1;
     }
 
-    /* Declare variables */
     int tam, Result;
-    int K = atoi(argv[1]); /* Convert the second argument to an integer */
+    int K = atoi(argv[1]); 
 
-    /* Build the dynamic vector using numbers from the specified file */
     int* V = DynamicVectorBuilder(argv[2], &tam);
-
-    /* Find the Kth smallest element in the vector */
     Result = QuickSelect(V, 0, tam - 1, K);
 
-    /* Print the result */
     printf("%d", Result);
     printf("\n\n");
 
-    /* Free the dynamically allocated memory */
     free(V);
 
     return 0;
 }
 
-/*
-QuickSelect algorithm to find the Kth smallest element in an array.
-
-Arguments:
-- V: pointer to an array of integers
-- intBegin: starting index of the array
-- intEnd: ending index of the array
-- int_K: position of the element to find
-
-Return: the Kth smallest element
-*/
+/**
+ * @brief QuickSelect algorithm to find the Kth smallest element in an array.
+ * 
+ * @param V pointer to an array of integers
+ * @param intBegin starting index of the array
+ * @param intEnd ending index of the array
+ * @param int_K position of the element to find
+ * @return int the Kth smallest element
+ */
 int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
 {
     int pivot_position;
@@ -63,7 +48,6 @@ int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
         return V[intBegin];
     }
   
-    /*get pivot position using Partition function*/
     pivot_position = Partition(V, intBegin, intEnd); 
 
     /*if pivot is at position K, we found the Kth smallest element*/
@@ -82,22 +66,19 @@ int QuickSelect(int *V, int intBegin, int intEnd, int int_K)
     return QuickSelect(V, intBegin, pivot_position - 1, int_K);
 }
 
-/*
-Partition - find the correct position of the pivot element in the array.
-
-Arguments:
-- V: pointer to an array of integers
-- intBegin: starting index of the array
-- intEnd: ending index of the array
-
-Return: an int, the new position of pivot
-*/
+/**
+ * @brief find the correct position of the pivot element in the array.
+ * 
+ * @param V pointer to an array of integers
+ * @param start starting index of the array
+ * @param end ending index of the array
+ * @return int the new position of pivot
+ */
 int Partition(int *V, int start, int end)
 {
     int pivot_position, pivot_value, i, j, temp;
 
-    /* Selecting a pivot element */
-    srand(time(NULL)); /* seed random number generator */
+    srand(time(NULL)); 
     pivot_position = start + rand() % (end - start + 1); /* random position between start and end */
     
     /* Move pivot to the end */
@@ -109,7 +90,6 @@ int Partition(int *V, int start, int end)
     i = start;
     j = end - 1;
 
-    /* Rearranging elements around the pivot */
     while(j >= i)
     {
         /* Swap elements if they are on the wrong side of pivot */
@@ -134,30 +114,18 @@ int Partition(int *V, int start, int end)
     V[i] = V[end];
     V[end] = temp;
 
-    /* Returning the new position of the pivot */
     return i; 
 }
 
-
-/*
- * Builds a dynamic integer vector from a file.
- 
- Parameters:
- - pfileName: a pointer to the name of the file to be read.
- - pSizeOfArray: a pointer to the variable that will hold the size of the array.
- 
- Returns:
- - A pointer to the dynamic integer vector created from the file.
- 
- Notes:
- - The file must contain only int separated by "\n".
- - The file must not contain any non-numeric characters.
- - The memory allocated for the dynamic int vector must be freed by the caller.
-
+/**
+ * @brief Builds a dynamic integer vector from a file.
+ * 
+ * @param pfileName a pointer to the name of the file to be read.
+ * @param pSizeOfArray a pointer to the variable that will hold the size of the array.
+ * @return int* A pointer to the dynamic integer vector created from the file.
  */
 int* DynamicVectorBuilder(char* pfileName, int* pSizeOfArray)
 {
-    /*Open the file and verify that it was opened without any problems.*/
     FILE* file = fopen(pfileName, "r");
     if(file == NULL) {
         exit(1); /*Error: file could not be opened.*/
@@ -165,27 +133,24 @@ int* DynamicVectorBuilder(char* pfileName, int* pSizeOfArray)
 
     int intFileNumber, numberOfElements = 0, i;
 
-    /*Count the number of integers in the file to determine the size of the dynamic vector.*/
     while(fscanf(file, "%d", &intFileNumber) == 1) {
         numberOfElements++;
     }
 
-    /*Allocate memory for the dynamic vector.*/
     int *V = (int*) malloc(numberOfElements * sizeof(int));
     if(V == NULL) {
         exit(1); /*Error: memory could not be allocated.*/
     }
 
-    /*Read the integers from the file into the dynamic vector.*/
     rewind(file); /*Reposition the file position indicator to the beginning of the file.*/
     for(i = 0; i < numberOfElements; i++) {
         fscanf(file, "%d", &V[i]);
     }
 
-    fclose(file); /*Close the file.*/
+    fclose(file);
     *pSizeOfArray = numberOfElements;
 
-    return V; /*Return a pointer to the dynamic vector.*/
+    return V; 
 }
 
 
