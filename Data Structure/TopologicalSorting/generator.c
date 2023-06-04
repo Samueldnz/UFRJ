@@ -1,5 +1,5 @@
 /**
-Usage: Change the value of TAM in the define statement to set the number
+Usage: Change the value of SIZE in the define statement to set the number
 of vertices in the output graph.
 By default, the output is saved in a file named "input.txt", but if you
 want to choose a different name, call the program with -f [filename]
