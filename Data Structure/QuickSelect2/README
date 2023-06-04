@@ -1,0 +1,16 @@
+QuickSelect Version 2.0
+
+This is the second version of the QuickSelect program. Since the program uses a static array to store 
+the input data, it allows users to input a list of numbers via keyboard,
+
+To use this program, you can run it in the command line and specify the value of K as 
+an argument. 
+
+For example, to find the K-th smallest element in a list, you can use 
+the command:  
+./QuickSelect.exe -K < "input.txt" 
+
+ - "K" is replaced by the desired value
+ - "input.txt" is a file containing the list of numbers.
+
+Remember that the K-th element is counted starting from the number 1.*/
