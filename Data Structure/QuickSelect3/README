@@ -1,0 +1,12 @@
+QuickSelect Version 3.0
+
+    This version is pretty similar to the Version 2.0 (see: https://github.com/Samueldnz/UFRJ/tree/master/Data%20Structure/QuickSelect2).
+    
+    But instead of using a static array, we use a dynamic one. You can test by yourself if you want. 
+    In order to use a file, you just need to enter the following command: 
+    ./QuickSelect.exe -K (a number of your desire) < input.txt
+
+    You can change the input.txt file for one of your own.
+
+    IMPORTANT: Remember that the K-th element is counted starting from the number 1.
+    */
