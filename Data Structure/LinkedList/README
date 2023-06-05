@@ -1,0 +1,14 @@
+LINKED LIST
+
+In order to use the FIRST MAIN, you`ll need to enable uncommenting it. And to run the program, use the following command:
+./linkedlist.exe input.txt
+
+Although, if you wanna direct the STDIN to the file, you will need to enable the SECOND MAIN. And to run the program, you`ll need to use the following command:
+./linkedlist.exe < "input.txt"
+
+In both ones, there`s some lines used to clear the terminal. Check the corresponding lines below and, if you wish, delete them.
+
+    printf("\nClick 'ENTER' to back to menu!\n"); -> lines 98, 167
+    input_flush(); -> 99, 168
+    system("clear"); -> lines 34, 100, 108, 169
+    getchar(); -> lines 54, 62, 73, 123, 131, 142

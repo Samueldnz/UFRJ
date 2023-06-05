@@ -1,0 +1,14 @@
+DOUBLE LINKED LIST
+
+In order to use the FIRST MAIN, you`ll need to enable uncommenting it. And to run the program, use the following command:
+./doublelinkedlist.exe input.txt
+
+Although, if you wanna direct the STDIN to the file, you will need to enable the SECOND MAIN. And to run the program, you`ll need to use the following command:
+./doublelinkedlist.exe < "input.txt"
+
+In both ones, there`s some lines used to clear the terminal. Check the corresponding lines below and, if you wish, delete them.
+
+    printf("\nClick 'ENTER' to back to menu!\n"); -> lines 99, 156
+    input_flush(); -> 100, 157
+    system("clear"); -> lines 35, 101, 109, 158
+    getchar(); -> lines 55, 63, 74, 124, 132, 143

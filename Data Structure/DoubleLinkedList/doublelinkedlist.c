@@ -22,12 +22,7 @@ int get_int(int min, int max, char * prompt);
 void displayNode(Node* nodeFound);
 int suffixsum(Node* head);
 
-/*
-
-If you enable this main function, you will need to use the following command:
-./doublelinkedlist.exe input.txt
-Because this code opens, reads and then closes the file.*/
-
+/*FIRST MAIN*/
 int main(int argc, char *argv[])
 {
     if (argc != 2) {
@@ -37,7 +32,7 @@ int main(int argc, char *argv[])
 
     Node* head = NULL;
     int x = 0;
-
+    system("clear");
     FILE *inputFile = fopen(argv[1], "r");
     if (inputFile == NULL) {
         printf("It wasn`t possible to open the file.\n");
@@ -57,6 +52,7 @@ int main(int argc, char *argv[])
         case 1:
             printf("Enter with the new Node key to add: ");
             scanf("%d", &x);
+            getchar();
             addNode(&head, x);
             printf("The new Node was added successfully!\n");
             break;
@@ -64,6 +60,7 @@ int main(int argc, char *argv[])
         case 2:
             printf("Enter with the Node key to delete: ");
             scanf("%d", &x);
+            getchar();
             if(deleteNode(&head, x)){
                 printf("The Node was deleted successfully!\n");
             }else{
@@ -74,6 +71,7 @@ int main(int argc, char *argv[])
         case 3:
             printf("Enter with the Node key to search: ");
             scanf("%d", &x);
+            getchar();
             Node* found = searchNode(head, x);
             if(found == NULL){
                 printf("A Node with this key doesn`t exist!\n");
@@ -98,18 +96,17 @@ int main(int argc, char *argv[])
         case 6:
             return 0;
         }
+        printf("\nClick 'ENTER' to back to menu!\n");
+        input_flush();
+        system("clear");
     }
 }
 
-/*
-Although, if you enable this one, you`ll need to use the following command:
-./doublelinkedlist.exe < "input.txt"
-`Cause this part directs the stdin to the file
-
+/* SECOND MAIN
 int main(void) {
     Node* head = NULL;
     int x;
-
+    system("clear");
     while (!feof(stdin)) {
         if (scanf("%d", &x) == 1) {
             addNode(&head, x);
@@ -124,6 +121,7 @@ int main(void) {
         case 1:
             printf("Enter with the new Node key to add: ");
             scanf("%d", &x);
+            getchar();
             addNode(&head, x);
             printf("The new Node was added successfully!\n");
             break;
@@ -131,6 +129,7 @@ int main(void) {
         case 2:
             printf("Enter with the Node key to delete: ");
             scanf("%d", &x);
+            getchar();
             if(deleteNode(&head, x)){
                 printf("The Node was deleted successfully!\n");
             }else{
@@ -141,6 +140,7 @@ int main(void) {
         case 3:
             printf("Enter with the Node key to search: ");
             scanf("%d", &x);
+            getchar();
             Node* found = searchNode(head, x);
             break;
         
@@ -153,6 +153,9 @@ int main(void) {
             return 0;
             break;
         }
+        printf("\nClick 'ENTER' to back to menu!\n");
+        input_flush();
+        system("clear");
     }
 }*/
 
