@@ -22,7 +22,7 @@ int get_int(int min, int max, char * prompt);
 void displayNode(Node* nodeFound);
 int suffixsum(Node* head);
 
-/*FIRST MAIN*/
+/*FIRST MAIN
 int main(int argc, char *argv[])
 {
     if (argc != 2) {
@@ -100,9 +100,9 @@ int main(int argc, char *argv[])
         input_flush();
         system("clear");
     }
-}
+}*/
 
-/* SECOND MAIN
+/* SECOND MAIN*/
 int main(void) {
     Node* head = NULL;
     int x;
@@ -142,22 +142,34 @@ int main(void) {
             scanf("%d", &x);
             getchar();
             Node* found = searchNode(head, x);
+            if(found == NULL){
+                printf("A Node with this key doesn`t exist!\n");
+            }else{
+                if(head->isSuffixSumPerformed){
+                    head->suffixsum = suffixsum(head);
+                }
+                displayNode(found);
+            }
             break;
         
         case 4:
-            printf("Double Linked List\n");
+            printf("Double Linked List\n\n");
             displayList(head);
             break;
         
         case 5:
-            return 0;
+            head->suffixsum = suffixsum(head);
+            printf("Suffix sum performed successfully\n");
             break;
+
+        case 6:
+            return 0;
         }
         printf("\nClick 'ENTER' to back to menu!\n");
         input_flush();
         system("clear");
     }
-}*/
+}
 
 /**
  * @brief Creates a new Node object with the given key value.

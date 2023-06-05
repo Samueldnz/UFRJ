@@ -8,7 +8,7 @@ Although, if you wanna direct the STDIN to the file, you will need to enable the
 
 In both ones, there`s some lines used to clear the terminal. Check the corresponding lines below and, if you wish, delete them.
 
-    printf("\nClick 'ENTER' to back to menu!\n"); -> lines 99, 156
+    printf("\nClick 'ENTER' to back to menu!\n"); -> lines 99, 168
     input_flush(); -> 100, 157
-    system("clear"); -> lines 35, 101, 109, 158
-    getchar(); -> lines 55, 63, 74, 124, 132, 143
+    system("clear"); -> lines 35, 101, 109, 169
+    getchar(); -> lines 55, 63, 74, 124, 132, 170
