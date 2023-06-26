@@ -9,6 +9,7 @@ typedef struct Node{
 
 void addNode(Node** root, int key);
 Node* createNode(int key);
+void printInOrder(Node* root);
 
 int main(void)
 {
@@ -21,6 +22,8 @@ int main(void)
         scanf("%d", &key);
         addNode(&root, key);
     }
+
+    printInOrder(root);
     
     return 0;
 }
@@ -46,4 +49,12 @@ Node* createNode(int key) {
     newNode->rightSubTree = NULL;
 
     return newNode;
+}
+
+void printInOrder(Node* root){
+    if (root != NULL) {
+        printInOrder(root->leftSubTree);
+        printf("%d ", root->valueKey);
+        printInOrder(root->rightSubTree);
+    }
 }
