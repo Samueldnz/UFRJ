@@ -82,6 +82,11 @@ int main(void)
     }
 }
 
+/**
+ * @brief Displays the details of a node in the binary search tree.
+ * 
+ * @param nodeFound Pointer to the node to be displayed.
+ */
 void displayNode(Node* nodeFound){
     printf("\nNode { \n");
     printf("    key: %d\n", nodeFound->valueKey);
@@ -100,6 +105,14 @@ void displayNode(Node* nodeFound){
     printf("}\n\n");
 }
 
+/**
+ * @brief Deletes a node with a given key from the binary search tree. 
+ * 
+ * @param root  Pointer to the root node of the binary search tree.
+ * @param keyToDelete The key of the node to be deleted.
+ * @return true if the node is deleted successfully.
+ * @return false if the node with the given key does not exist in the tree.
+ */
 bool deleteNode(Node** root, int keyToDelete){
     if((*root) == NULL) return false;
 
@@ -129,6 +142,12 @@ bool deleteNode(Node** root, int keyToDelete){
     }
 }
 
+/**
+ * @brief Adds a node with a given key to the binary search tree.
+ * 
+ * @param root Pointer to the root node of the binary search tree.
+ * @param key The key of the node to be added.
+ */
 void addNode(Node** root, int key){
     if((*root) == NULL){
         (*root) = createNode(key);
@@ -141,6 +160,13 @@ void addNode(Node** root, int key){
     }
 }
 
+/**
+ * @brief Searches for a node with a given key in the binary search tree.
+ * 
+ * @param root Pointer to the root node of the binary search tree.
+ * @param keyToSearch The key to search for.
+ * @return Node*  Pointer to the node with the given key if found, otherwise NULL.
+ */
 Node* searchNode(Node* root, int keyToSearch){
     if(root == NULL || root->valueKey == keyToSearch) return root;
 
@@ -153,6 +179,12 @@ Node* searchNode(Node* root, int keyToSearch){
     return false;
 }
 
+/**
+ * @brief Create a Node object
+ * 
+ * @param key The key value for the new node.
+ * @return Node*  Pointer to the newly created node.
+ */
 Node* createNode(int key) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     if(newNode == NULL) exit(1);
@@ -164,6 +196,11 @@ Node* createNode(int key) {
     return newNode;
 }
 
+/**
+ * @brief Prints the elements of the binary search tree in ascending order.
+ * 
+ * @param root  Pointer to the root node of the binary search tree.
+ */
 void printTreeInOrder(Node* root){
     if (root != NULL) {
         printTreeInOrder(root->leftSubTree);
@@ -172,6 +209,12 @@ void printTreeInOrder(Node* root){
     }
 }
 
+/**
+ * @brief Finds the node with the minimum value in the given binary search tree.
+ * 
+ * @param root  Pointer to the root node of the binary search tree.
+ * @return Node* Pointer to the node with the minimum value.
+ */
 Node* findMinimumValueNode(Node* root){
     if(root == NULL) return NULL;
 
