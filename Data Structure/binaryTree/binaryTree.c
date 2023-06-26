@@ -10,10 +10,14 @@ typedef struct Node{
 
 void addNode(Node** root, int key);
 Node* createNode(int key);
-void printInOrder(Node* root);
-bool searchNode(Node* root, int keyToSearch);
+void printTreeInOrder(Node* root);
+Node* searchNode(Node* root, int keyToSearch);
 bool deleteNode(Node** root, int keyToDelete);
 Node* findMinimumValueNode(Node* root);
+int main_menu(void);
+void input_flush();
+int get_int(int min, int max, char * prompt);
+void displayNode(Node* nodeFound);
 
 int main(void)
 {
@@ -25,25 +29,75 @@ int main(void)
     for(i = 0; i < keyAmount; i++){
         scanf("%d", &key);
         addNode(&root, key);
+    }printf("\nAll the nodes were added successfully!\n");
+
+    freopen("/dev/tty", "r", stdin); /*Redirects the stdin file*/
+
+    while(1){
+        switch(main_menu()){
+            
+            case 1:
+                printf("Enter with the new Node key value to add: ");
+                scanf("%d", &key);
+                getchar();
+                addNode(&root, key);
+                printf("The new Node was added successfully!\n");
+                break;
+
+            case 2:
+                printf("Enter with the Node key to delete: ");
+                scanf("%d", &key);
+                getchar();
+                if(deleteNode(&root, key)){
+                    printf("The Node was deleted successfully!\n");
+                }else{
+                    printf("A Node with this key doesn`t exist!\n");
+                }
+                break;
+
+            case 3:
+                printf("Enter with the Node key to search: ");
+                scanf("%d", &key);
+                getchar();
+                Node* found = searchNode(root, key);
+                if(found == NULL){
+                    printf("A Node with this key value doesn`t exist!\n");
+                }else{
+                    displayNode(found);
+                }
+                break;
+
+            case 4:
+                printf("Binary Tree: \n\n");
+                printTreeInOrder(root);
+                break;
+
+            case 5:
+                printf("Exiting...\n");
+                return 0;
+        }
+        printf("\nClick 'ENTER' to back to menu!\n");
+        input_flush();
+        system("clear");
     }
+}
 
-    printInOrder(root);
+void displayNode(Node* nodeFound){
+    printf("\nNode { \n");
+    printf("    key: %d\n", nodeFound->valueKey);
 
-    if(searchNode(root, 4) == true){
-        printf("encontrado\n");
+    if(nodeFound->leftSubTree == NULL){
+        printf("    Left Subtree Root: NULL\n");
     }else{
-        printf("não existe\n");
+        printf("    Left Subtree Root: %d\n", nodeFound->leftSubTree->valueKey);
     }
 
-    if(deleteNode(&root, 3) == true){
-        printf("encontrado\n");
+    if(nodeFound->rightSubTree == NULL){
+        printf("    Right Subtree Root: NULL\n");
     }else{
-        printf("não existe\n");
+        printf("    Right Subtree Root: %d\n", nodeFound->rightSubTree->valueKey);
     }
-    
-    printInOrder(root);
-
-    return 0;
+    printf("}\n\n");
 }
 
 bool deleteNode(Node** root, int keyToDelete){
@@ -87,9 +141,8 @@ void addNode(Node** root, int key){
     }
 }
 
-bool searchNode(Node* root, int keyToSearch){
-    if(root == NULL) return false;
-    if(root->valueKey == keyToSearch ) return true;
+Node* searchNode(Node* root, int keyToSearch){
+    if(root == NULL || root->valueKey == keyToSearch) return root;
 
     if(keyToSearch < root->valueKey){
         return searchNode(root->leftSubTree, keyToSearch);
@@ -111,11 +164,11 @@ Node* createNode(int key) {
     return newNode;
 }
 
-void printInOrder(Node* root){
+void printTreeInOrder(Node* root){
     if (root != NULL) {
-        printInOrder(root->leftSubTree);
+        printTreeInOrder(root->leftSubTree);
         printf("%d ", root->valueKey);
-        printInOrder(root->rightSubTree);
+        printTreeInOrder(root->rightSubTree);
     }
 }
 
@@ -126,4 +179,62 @@ Node* findMinimumValueNode(Node* root){
         root = root->leftSubTree;
     }
     return root;
+}
+
+/**
+ * @brief Display the menu options and prompts the use to choose an option
+ * 
+ * @return int The selected menu option
+ */
+int main_menu(void)
+{
+    char *title = "\nMain Menu\n\n";
+    char *a = "(1) Add a new Node\n";
+    char *b = "(2) Delete a Node\n";
+    char *c = "(3) Search a Node\n";
+    char *d = "(4) Display the Binary Tree\n";
+    char *e = "(5) Exit\n";
+
+    printf("%s%s%s%s%s%s\n", title, a, b, c, d, e);
+
+    return get_int(1,5, "Choose an Option: ");
+}
+
+/**
+ * @brief Clear the input buffer by consuming and discarding all characters
+ * from the standard input until a newline character is encountered
+ * 
+ */
+void input_flush()
+{
+	char c;
+	c = fgetc(stdin);
+	while(c != '\n') c = fgetc(stdin);
+}
+
+/**
+ * @brief Get an integer value within a specified range
+ * 
+ * @param min The minimum allowable value
+ * @param max The maximum allowable value
+ * @param prompt The prompt to display to the user 
+ * @return int The valid value entered by the user
+ */
+int get_int(int min, int max, char * prompt)
+{
+	int i;
+	do
+	{
+		printf("%s", prompt);
+		if(!(scanf("%d", &i)))
+		{
+			input_flush();
+			continue;
+		}
+	}
+	while(i < min || i > max);
+
+    input_flush();
+
+	return i;
 }
