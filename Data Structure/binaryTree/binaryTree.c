@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 
 typedef struct Node{
     int valueKey;
@@ -10,6 +11,7 @@ typedef struct Node{
 void addNode(Node** root, int key);
 Node* createNode(int key);
 void printInOrder(Node* root);
+bool searchNode(Node* root, int keyToSearch);
 
 int main(void)
 {
@@ -24,6 +26,12 @@ int main(void)
     }
 
     printInOrder(root);
+
+    if(searchNode(root, 4) == true){
+        printf("encontrado\n");
+    }else{
+        printf("não existe\n");
+    }
     
     return 0;
 }
@@ -38,6 +46,19 @@ void addNode(Node** root, int key){
             addNode(&((*root)->rightSubTree), key);
         }
     }
+}
+
+bool searchNode(Node* root, int keyToSearch){
+    if(root == NULL) return false;
+    if(root->valueKey == keyToSearch ) return true;
+
+    if(keyToSearch < root->valueKey){
+        return searchNode(root->leftSubTree, keyToSearch);
+    }else{
+        return searchNode(root->rightSubTree, keyToSearch);
+    }
+
+    return false;
 }
 
 Node* createNode(int key) {
