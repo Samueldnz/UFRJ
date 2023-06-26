@@ -21,10 +21,10 @@ void displayNode(Node* nodeFound);
 
 int main(void)
 {
-    int keyAmount, treeHeight, i, key;
+    int keyAmount, i, key;
     Node* root = NULL;
 
-    scanf("%d %d", &keyAmount, &treeHeight);
+    scanf("%d", &keyAmount);
 
     for(i = 0; i < keyAmount; i++){
         scanf("%d", &key);
