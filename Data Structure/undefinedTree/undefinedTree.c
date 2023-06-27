@@ -55,13 +55,14 @@ void exibirArvore(PONT raiz){
 
 PONT buscaChave(int ch, PONT raiz){
     if (raiz == NULL) return NULL;
-    if (raiz->chave == ch) return raiz;
+    if (raiz->chave == ch) return raiz; /*busca na raiz*/
 
-    PONT p = raiz->primFilho;
+    /*não é null e nem está na raiz */
+    PONT p = raiz->primFilho;  
 
-    while(p){
+    while(p){ /*para cada filho, buscamos na subarvore de que ele é raiz*/
         PONT resp = buscaChave(ch, p);
-        if(resp) return resp;
+        if(resp) return resp; 
         p = p->proxIrmao;
     }
 
