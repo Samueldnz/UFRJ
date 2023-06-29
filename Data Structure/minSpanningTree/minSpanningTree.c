@@ -8,10 +8,10 @@ typedef struct _EDGE{
     int destinyVertex;
     int edgeWeight;
 }Edge;
-
+/*Ta faltando coisa aqui, preciso acrescentar algumas struct e terminar de construir o grafo base*/
 void readGraph(int* vertexAmount, int* edgeAmount, Edge* edgeList);
 
-/*void imprimirGrafo(int vertices, int arestas, Edge *listaArestas) {
+void imprimirGrafo(int vertices, int arestas, Edge *listaArestas) {
     printf("Número de vértices: %d\n", vertices);
     printf("Número de arestas: %d\n", arestas);
 
@@ -19,7 +19,7 @@ void readGraph(int* vertexAmount, int* edgeAmount, Edge* edgeList);
     for (i = 0; i < arestas; i++) {
         printf("Aresta %d: %d -> %d (Peso: %d)\n", i + 1, listaArestas[i].originVertex, listaArestas[i].destinyVertex, listaArestas[i].edgeWeight);
     }
-} It`s here just to test the input*/
+} /*It`s here just to test the input*/
 
 int main(void){
     int vertexAmount, edgeAmount;
@@ -36,7 +36,7 @@ void readGraph(int* vertexAmount, int* edgeAmount, Edge* edgeList)
     scanf("%d %d", vertexAmount, edgeAmount);
 
     int i;
-    for(i = 0; i < (*vertexAmount); i++){
+    for(i = 0; i < (*edgeAmount); i++){
         scanf("%d %d %d", 
                 &(edgeList[i].originVertex), 
                 &(edgeList[i].destinyVertex), 
