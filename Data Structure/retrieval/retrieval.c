@@ -10,6 +10,52 @@ typedef struct _NODE{
     bool isWord;
 }Node;
 
+Node* createNode(void);
+Node* initializeNode(void);
+int mapIndex(char c);
+void addNode(Node** root, char* keyWord);
+bool searchNode(Node* root, char* keyWord);
+
+int main(int argc, char* argv[]){
+    
+    if(argc != 2){
+        printf("Run the code with the following command: ./retrieval.c input.txt\n");
+        return 1;
+    }
+
+    Node* root = initializeNode();
+    FILE* file;
+    char* fileName = argv[1];
+    int i;
+
+    int numberOfWordsIntheFile;
+    char word[100];
+
+    file = fopen(fileName, "r");
+    if(file == NULL){
+        printf("ERROR! It was not possible open the file!\n");
+        return 1;
+    }
+
+    fscanf(file, "%d", &numberOfWordsIntheFile);
+
+    for(i = 0; i < numberOfWordsIntheFile; i++){
+        fscanf(file, "%s", word);
+        addNode(&root, word);
+    }printf("All words were added successfully!\n");
+
+    fclose(file);
+
+    printf("Choose an word to search: \n");
+    scanf("%s", word);
+
+    if(searchNode(root, word)){
+        printf("encontrei!\n");
+    }else{printf("ficarei devendo\n");}
+    
+    return 0;
+}
+
 Node* createNode(void){
     Node* newNode = (Node*)malloc(sizeof(Node));
     if(newNode == NULL) exit(1);
@@ -45,7 +91,6 @@ void addNode(Node** root, char* keyWord){
     currentNode->isWord = true;
 }
 
-
 bool searchNode(Node* root, char* keyWord){
     int keyWordIndex;
     int wordLength = strlen(keyWord);
@@ -58,8 +103,4 @@ bool searchNode(Node* root, char* keyWord){
         currentNode = currentNode->children[i];
     }
     return currentNode->isWord;
-}
-
-int main(void){
-    return 0;
 }
