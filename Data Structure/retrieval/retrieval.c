@@ -56,6 +56,11 @@ int main(int argc, char* argv[]){
     return 0;
 }
 
+/**
+ * @brief Create a Node object
+ * 
+ * @return Node* 
+ */
 Node* createNode(void){
     Node* newNode = (Node*)malloc(sizeof(Node));
     if(newNode == NULL) exit(1);
@@ -67,14 +72,31 @@ Node* createNode(void){
     return newNode;
 }
 
+/**
+ * @brief Initialize a Node object
+ * 
+ * @return Node* 
+ */
 Node* initializeNode(void){
     return createNode();
 }
 
+/**
+ * @brief Map a character to an index
+ * 
+ * @param c The character to map
+ * @return int The index mapped to the character
+ */
 int mapIndex(char c){
     return ((int)c - (int)'a');
 }
 
+/**
+ * @brief Add a Node to the trie
+ * 
+ * @param root The root of the trie
+ * @param keyWord The word to be added
+ */
 void addNode(Node** root, char* keyWord){
     int keyWordIndex;
     int wordLength = strlen(keyWord);
@@ -91,6 +113,13 @@ void addNode(Node** root, char* keyWord){
     currentNode->isWord = true;
 }
 
+/**
+ * @brief Search for a word in the trie
+ * 
+ * @param root The root of the trie
+ * @param keyWord The word to search for
+ * @return true if the word is found, false otherwise
+ */
 bool searchNode(Node* root, char* keyWord){
     int keyWordIndex;
     int wordLength = strlen(keyWord);
