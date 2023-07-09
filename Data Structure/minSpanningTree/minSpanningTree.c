@@ -2,31 +2,32 @@
 #include <stdlib.h>
 
 
-typedef struct {
-    int src, dest, weight;
-} Edge;
+typedef struct _EDGE{
+    int originVertex;
+    int destinyVertex;
+    int edgeWeight;
+}Edge;
 
 
-typedef struct {
+typedef struct _MINHEAP {
     Edge* array;
     int capacity;
     int size;
 } MinHeap;
 
-typedef struct {
+typedef struct _GRAPH {
     int V, E;
     Edge* edge;
 } Graph;
 
 
-Graph* createGraph(int V, int E) {
+Graph* createTemporaryGraph(int V, int E) {
     Graph* graph = (Graph*)malloc(sizeof(Graph));
     graph->V = V;
     graph->E = E;
     graph->edge = (Edge*)malloc(E * sizeof(Edge));
     return graph;
 }
-
 
 MinHeap* createMinHeap(int capacity) {
     MinHeap* heap = (MinHeap*)malloc(sizeof(MinHeap));
@@ -48,10 +49,10 @@ void heapifyDown(MinHeap* heap, int index) {
     int leftChild = 2 * index + 1;
     int rightChild = 2 * index + 2;
 
-    if (leftChild < heap->size && heap->array[leftChild].weight < heap->array[smallest].weight)
+    if (leftChild < heap->size && heap->array[leftChild].edgeWeight < heap->array[smallest].edgeWeight)
         smallest = leftChild;
 
-    if (rightChild < heap->size && heap->array[rightChild].weight < heap->array[smallest].weight)
+    if (rightChild < heap->size && heap->array[rightChild].edgeWeight < heap->array[smallest].edgeWeight)
         smallest = rightChild;
 
     if (smallest != index) {
@@ -60,10 +61,9 @@ void heapifyDown(MinHeap* heap, int index) {
     }
 }
 
-
-void insertHeapNode(MinHeap* heap, Edge* node) {
+void addHeapNode(MinHeap* heap, Edge* node) {
     if (heap->size >= heap->capacity) {
-        printf("Heap is full. Cannot insert any more nodes.\n");
+        /*printf("Heap is full. Cannot insert any more nodes.\n");*/
         return;
     }
 
@@ -71,15 +71,15 @@ void insertHeapNode(MinHeap* heap, Edge* node) {
     int i = heap->size - 1;
     heap->array[i] = *node;
 
-    while (i != 0 && heap->array[i].weight < heap->array[(i - 1) / 2].weight) {
+    while (i != 0 && heap->array[i].edgeWeight < heap->array[(i - 1) / 2].edgeWeight) {
         swapNodes(&heap->array[i], &heap->array[(i - 1) / 2]);
         i = (i - 1) / 2;
     }
 }
 
-Edge extractMinNode(MinHeap* heap) {
+Edge removeMinNode(MinHeap* heap) {
     if (heap->size <= 0) {
-        printf("Heap is empty. Cannot extract any node.\n");
+        /*printf("Heap is empty. Cannot extract any node.\n");*/
         Edge emptyEdge = {-1, -1, -1};
         return emptyEdge;
     }
@@ -101,7 +101,7 @@ Edge extractMinNode(MinHeap* heap) {
 int compareEdges(const void* a, const void* b) {
     Edge* edgeA = (Edge*)a;
     Edge* edgeB = (Edge*)b;
-    return edgeA->weight - edgeB->weight;
+    return edgeA->edgeWeight - edgeB->edgeWeight;
 }
 
 
@@ -140,24 +140,23 @@ int kruskalMST(Graph* graph) {
     
     for (i = 0; i < graph->E; i++) {
         Edge* edge = (Edge*)malloc(sizeof(Edge));
-        edge->src = graph->edge[i].src;
-        edge->dest = graph->edge[i].dest;
-        edge->weight = graph->edge[i].weight;
-        insertHeapNode(heap, edge);
+        edge->originVertex = graph->edge[i].originVertex;
+        edge->destinyVertex = graph->edge[i].destinyVertex;
+        edge->edgeWeight = graph->edge[i].edgeWeight;
+        addHeapNode(heap, edge);
     }
 
 
     while (e < V - 1) {
-        Edge minEdge = extractMinNode(heap);
+        Edge minEdge = removeMinNode(heap);
 
-        int rootSrc = find(parent, minEdge.src);
-        int rootDest = find(parent, minEdge.dest);
+        int rootSrc = find(parent, minEdge.originVertex);
+        int rootDest = find(parent, minEdge.destinyVertex);
 
-    
         if (rootSrc != rootDest) {
             result[e++] = minEdge;
             unionSets(parent, rootSrc, rootDest);
-            totalWeight += minEdge.weight;
+            totalWeight += minEdge.edgeWeight;
         }
     }
 
@@ -169,34 +168,23 @@ int kruskalMST(Graph* graph) {
 }
 
 int main() {
-    int V = 4;  
-    int E = 5;  
-    Graph* graph = createGraph(V, E);
+    int V;  
+    int E, i; 
 
+    scanf("%d %d", &V, &E);
 
-    graph->edge[0].src = 0;
-    graph->edge[0].dest = 1;
-    graph->edge[0].weight = 10;
+     Graph* graph = createTemporaryGraph(V, E);
 
-    graph->edge[1].src = 0;
-    graph->edge[1].dest = 2;
-    graph->edge[1].weight = 6;
-
-    graph->edge[2].src = 0;
-    graph->edge[2].dest = 3;
-    graph->edge[2].weight = 5;
-
-    graph->edge[3].src = 1;
-    graph->edge[3].dest = 3;
-    graph->edge[3].weight = 15;
-
-    graph->edge[4].src = 2;
-    graph->edge[4].dest = 3;
-    graph->edge[4].weight = 4;
+    for(i = 0; i < E; i++){
+        scanf("%d %d %d", 
+                &(graph->edge[i].originVertex),
+                &(graph->edge[i].destinyVertex),
+                &(graph->edge[i].edgeWeight));
+    }
 
     int totalWeight = kruskalMST(graph);
 
-    printf("Peso da Árvore Mínima de Extensão: %d\n", totalWeight);
+    printf("%d", totalWeight);
 
     free(graph->edge);
     free(graph);
